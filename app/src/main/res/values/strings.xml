@@ -1,3 +1,72 @@
 <resources>
-    <string name="app_name">spesa</string>
+    <string name="app_name">Spesa</string>
+    <string name="slogan">sua lista de compras inteligente</string>
+
+    <!-- Tela principal -->
+    <string name="minhas_listas">Minhas listas</string>
+    <string name="ativas">Ativas</string>
+    <string name="historico">Histórico</string>
+    <string name="despensa">Despensa</string>
+    <string name="mercados">Mercados</string>
+    <string name="nova_lista">Nova lista</string>
+    <string name="sem_listas">Nenhuma lista por aqui.\nToque em + para criar a primeira.</string>
+    <string name="sem_historico">Nenhuma lista finalizada ainda.</string>
+    <string name="titulo_da_lista">Título da lista</string>
+    <string name="orcamento_opcional">Teto de gastos (opcional)</string>
+    <string name="duplicar">Duplicar</string>
+    <string name="finalizar">Finalizar</string>
+    <string name="reabrir">Reabrir</string>
+    <string name="excluir">Excluir</string>
+    <string name="editar">Editar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="salvar">Salvar</string>
+    <string name="criar">Criar</string>
+    <string name="adicionar">Adicionar</string>
+
+    <!-- Tela da lista -->
+    <string name="sem_itens">Lista vazia.\nToque em + para adicionar um item.</string>
+    <string name="no_carrinho">No carrinho</string>
+    <string name="falta">Falta</string>
+    <string name="total">Total</string>
+    <string name="da_despensa">Da despensa</string>
+    <string name="comparar_mercados">Comparar mercados</string>
+    <string name="promo">PROMO</string>
+
+    <!-- Formulário de item -->
+    <string name="novo_item">Novo item</string>
+    <string name="editar_item">Editar item</string>
+    <string name="nome_do_produto">Nome do produto</string>
+    <string name="categoria">Categoria</string>
+    <string name="quantidade">Quantidade</string>
+    <string name="preco_unitario">Preço unitário</string>
+    <string name="em_promocao">Em promoção</string>
+    <string name="onde_comprar">Onde comprar</string>
+    <string name="nenhum_mercado">Nenhum mercado</string>
+    <string name="salvar_item">Salvar item</string>
+
+    <!-- Mercados -->
+    <string name="novo_mercado">Novo mercado</string>
+    <string name="editar_mercado">Editar mercado</string>
+    <string name="nome_do_mercado">Nome do mercado ou loja</string>
+    <string name="endereco">Endereço</string>
+    <string name="observacao">Observação</string>
+    <string name="sem_mercados">Nenhum mercado cadastrado.\nCadastre onde você costuma comprar.</string>
+
+    <!-- Despensa / produtos -->
+    <string name="buscar_produto">Buscar produto</string>
+    <string name="novo_produto">Novo produto</string>
+    <string name="editar_produto">Editar produto</string>
+    <string name="marca">Marca</string>
+    <string name="descricao">Descrição</string>
+    <string name="favorito">Favorito (aparece em \"Da despensa\")</string>
+    <string name="onde_encontrar">Onde encontrar</string>
+    <string name="adicionar_mercado">Adicionar mercado</string>
+    <string name="corredor">Onde fica na loja (ex.: corredor 5)</string>
+    <string name="preco">Preço</string>
+    <string name="sem_produtos">Sua despensa está vazia.\nOs itens das listas vêm para aqui automaticamente.</string>
+    <string name="sem_precos">Nenhum mercado registrado para este produto.</string>
+
+    <!-- Comparativo -->
+    <string name="comparativo">Comparativo</string>
+    <string name="sem_comparativo">Cadastre mercados e registre preços nos produtos para comparar.</string>
 </resources>
