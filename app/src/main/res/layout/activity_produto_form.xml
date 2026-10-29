@@ -115,8 +115,8 @@
                     android:layout_weight="1"
                     android:text="@string/onde_encontrar"
                     android:textColor="@color/texto"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textSize="22sp"
+                    android:fontFamily="@font/playfair_display" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/botaoAdicionarPreco"

@@ -51,6 +51,7 @@
                 android:id="@+id/economiaValor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/playfair_display"
                 android:textColor="@color/sobre_primaria"
                 android:textSize="30sp"
                 android:textStyle="bold" />
