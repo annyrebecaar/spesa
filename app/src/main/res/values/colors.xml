@@ -1,39 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--
-      PALETA DO APP (provisória: verde esmeralda do documento do projeto).
+      PALETA DO APP: "Italiana elegante".
+      Verde-garrafa escuro como cor principal, fundo creme, vermelho queimado
+      (da bandeira) reservado para promoção e para o teto estourado.
       Para mudar a cara do app inteiro, basta trocar os valores aqui.
     -->
-    <color name="primaria">#2E7D5B</color>
-    <color name="primaria_escura">#1F5C40</color>
-    <color name="primaria_clara">#DCEFE5</color>
+    <color name="primaria">#1F4A3A</color>
+    <color name="primaria_escura">#122E24</color>
+    <color name="primaria_clara">#DCE7E0</color>
     <color name="sobre_primaria">#FFFFFF</color>
 
-    <color name="fundo">#F6F7F5</color>
+    <color name="fundo">#F6F4EE</color>
     <color name="superficie">#FFFFFF</color>
-    <color name="borda">#E3E7E4</color>
-    <color name="texto">#1B1F1D</color>
-    <color name="texto_suave">#6B736E</color>
+    <color name="borda">#E3E0D7</color>
+    <color name="texto">#1A1E1C</color>
+    <color name="texto_suave">#666E69</color>
 
-    <!-- Destaque exclusivo para itens em promoção -->
-    <color name="promo">#FFC928</color>
-    <color name="promo_texto">#3B2E00</color>
+    <!-- Destaque exclusivo para itens em promoção (vermelho italiano, tom escuro) -->
+    <color name="promo">#B23A33</color>
+    <color name="promo_texto">#FFFFFF</color>
 
     <!-- Barra do teto de gastos -->
-    <color name="orcamento_ok">#2E7D5B</color>
-    <color name="orcamento_atencao">#E0A800</color>
-    <color name="orcamento_estouro">#D33A2C</color>
+    <color name="orcamento_ok">#3A7D5C</color>
+    <color name="orcamento_atencao">#C9962B</color>
+    <color name="orcamento_estouro">#B23A33</color>
 
-    <!-- Etiquetas de categoria -->
-    <color name="cat_alimentos">#E07A3F</color>
-    <color name="cat_bebidas">#3F7BE0</color>
-    <color name="cat_hortifruti">#4CAF50</color>
-    <color name="cat_limpeza">#26A6B5</color>
-    <color name="cat_higiene">#7E57C2</color>
-    <color name="cat_padaria">#C58B3C</color>
-    <color name="cat_acougue">#C62828</color>
-    <color name="cat_beleza">#E0609A</color>
-    <color name="cat_outros">#8A9299</color>
+    <!-- Etiquetas de categoria (tons um pouco mais fechados, para combinar) -->
+    <color name="cat_alimentos">#C96A36</color>
+    <color name="cat_bebidas">#3C6FB5</color>
+    <color name="cat_hortifruti">#4E8F4A</color>
+    <color name="cat_limpeza">#2E8E9B</color>
+    <color name="cat_higiene">#6F56A8</color>
+    <color name="cat_padaria">#A97A3A</color>
+    <color name="cat_acougue">#A3312E</color>
+    <color name="cat_beleza">#C25483</color>
+    <color name="cat_outros">#7E8782</color>
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
