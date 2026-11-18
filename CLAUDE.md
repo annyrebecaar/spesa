@@ -22,5 +22,6 @@ App Android nativo (Kotlin + Views/XML + Material 3) para listas de supermercado
 ## Decisões
 - Sem login/usuário: tudo local no celular.
 - Item digitado numa lista vira produto na despensa automaticamente; item salvo com mercado+preço atualiza o preço do produto naquele mercado.
-- Cores: todas em `res/values/colors.xml` (nomes semânticos: `primaria`, `fundo`, `promo`, `orcamento_*`, `cat_*`). Trocar lá muda o app inteiro.
+- Cores: todas em `res/values/colors.xml` (nomes semânticos: `primaria`, `fundo`, `promo`, `orcamento_*`, `cat_*`). Paleta "italiana elegante": verde-garrafa #1F4A3A, creme #F6F4EE, vermelho queimado #B23A33 só em promoção/estouro.
+- Marca: cesta com etiqueta pendurada à esquerda (SVGs em `marca/`; vetores em `drawable/logo_simbolo.xml` e `ic_launcher_foreground.xml`). Títulos em Playfair Display (`res/font/playfair_display.ttf`, licença OFL), via estilo `Spesa.Titulo`.
 - Campos de dinheiro aceitam vírgula e ponto (`android:digits`).
