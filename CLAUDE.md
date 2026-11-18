@@ -7,7 +7,7 @@ App Android nativo (Kotlin + Views/XML + Material 3) para listas de supermercado
 
 ## Onde roda / como sobe
 - Pasta: `~/Documents/programacao/spesa` (git local, sem remoto). Backup do estado original em `~/Documents/programacao/spesa-backup-2026-10-29`.
-- A pasta Documentos sincroniza com o iCloud e cria cópias "arquivo 2.xml" dentro de `app/build`: se o build falhar com "Failed file name validation", apagar `app/build` e compilar de novo.
+- A pasta Documentos sincroniza com o iCloud e criava cópias "arquivo 2.xml" no build. Por isso o build vai para `~/.spesa-build/app` (definido em `app/build.gradle.kts`); o APK fica em `~/.spesa-build/app/outputs/apk/debug/`.
 - Android Studio abre direto. Pela linha de comando:
   `JAVA_HOME=~/Library/Java/JavaVirtualMachines/jbr-21.0.11/Contents/Home ./gradlew assembleDebug`
 - Emulador: AVD `Pixel_6` (API 34). Para testar por adb sem a janela roubar cliques: `emulator -avd Pixel_6 -no-window` e `adb shell settings put secure show_ime_with_hard_keyboard 0`.

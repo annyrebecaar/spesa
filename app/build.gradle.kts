@@ -2,6 +2,10 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
+// A pasta Documentos sincroniza com o iCloud, que cria cópias "arquivo 2.java" no meio
+// da compilação e quebra o build. Por isso os arquivos gerados ficam fora dela.
+layout.buildDirectory = file("${System.getProperty("user.home")}/.spesa-build/app")
+
 android {
     namespace = "com.example.spesa"
     compileSdk {
