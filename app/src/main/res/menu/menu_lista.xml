@@ -1,8 +1,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/acao_compartilhar" android:title="Compartilhar"
+        android:icon="@drawable/ic_share" app:showAsAction="ifRoom"/>
     <item android:id="@+id/acao_despensa" android:title="@string/da_despensa"
         android:icon="@drawable/ic_star" app:showAsAction="ifRoom"/>
-    <item android:id="@+id/acao_comparar" android:title="@string/comparar_mercados"
-        android:icon="@drawable/ic_compare" app:showAsAction="ifRoom"/>
-    <item android:id="@+id/acao_finalizar" android:title="@string/finalizar" app:showAsAction="never"/>
+    <item android:id="@+id/acao_editar" android:title="Editar lista (nome, teto, pasta)" app:showAsAction="never"/>
+    <item android:id="@+id/acao_comparar" android:title="@string/comparar_mercados" app:showAsAction="never"/>
 </menu>

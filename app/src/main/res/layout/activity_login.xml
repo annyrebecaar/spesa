@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tela de entrar: topo verde com a marca e um cartão claro com o formulário. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/primaria" android:orientation="vertical">
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:gravity="center_horizontal" android:orientation="vertical"
+        android:paddingTop="56dp" android:paddingBottom="32dp">
+        <FrameLayout android:layout_width="72dp" android:layout_height="72dp"
+            android:background="@drawable/bg_logo">
+            <ImageView android:layout_width="44dp" android:layout_height="44dp"
+                android:layout_gravity="center" android:src="@drawable/logo_simbolo"
+                android:contentDescription="@null" />
+        </FrameLayout>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" android:text="@string/app_name"
+            android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold" android:textColor="@color/white" android:textSize="34sp" />
+    </LinearLayout>
+
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent"
+        android:background="@drawable/bg_sheet_topo" android:fillViewport="true">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:padding="24dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Entrar" android:textAppearance="@style/Spesa.Titulo" android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold" android:textColor="@color/texto" android:textSize="28sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Acesse suas listas e suas finanças." style="@style/Spesa.Suave"
+                android:textSize="15sp" android:layout_marginBottom="16dp" />
+
+            <com.google.android.material.textfield.TextInputLayout style="@style/Spesa.Campo"
+                android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="E-mail">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/campoEmail"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout style="@style/Spesa.Campo"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="12dp" android:hint="Senha" app:endIconMode="password_toggle">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/campoSenha"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView android:id="@+id/esqueci" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_gravity="end" android:padding="8dp" android:text="Esqueci minha senha"
+                android:textColor="@color/primaria" android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton android:id="@+id/botaoEntrar"
+                style="@style/Spesa.Botao" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" android:text="Entrar" />
+
+            <TextView android:id="@+id/irCadastro" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="24dp" android:gravity="center" android:padding="8dp"
+                android:text="Não tem conta? Criar conta" android:textColor="@color/texto_suave" android:textSize="15sp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

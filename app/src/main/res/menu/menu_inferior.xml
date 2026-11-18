@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- As 5 abas do menu de baixo -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/aba_inicio" android:icon="@drawable/ic_home" android:title="Início" />
+    <item android:id="@+id/aba_listas" android:icon="@drawable/ic_lists" android:title="Listas" />
+    <item android:id="@+id/aba_financas" android:icon="@drawable/ic_wallet" android:title="Finanças" />
+    <item android:id="@+id/aba_agenda" android:icon="@drawable/ic_calendar" android:title="Agenda" />
+    <item android:id="@+id/aba_ajustes" android:icon="@drawable/ic_sliders" android:title="Ajustes" />
+</menu>

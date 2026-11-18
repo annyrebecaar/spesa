@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/fundo">
+
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:paddingStart="20dp" android:paddingTop="20dp"
+            android:paddingEnd="20dp" android:paddingBottom="96dp">
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" android:gravity="center_vertical">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Minhas listas" android:textAppearance="@style/Spesa.Titulo" android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold" android:textColor="@color/texto" android:textSize="28sp" />
+                <ImageButton android:id="@+id/buscar" android:layout_width="44dp" android:layout_height="44dp"
+                    android:background="@drawable/bg_borda_redonda" android:src="@drawable/ic_search"
+                    app:tint="@color/texto" android:contentDescription="Buscar" />
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout android:id="@+id/caixaBusca" style="@style/Spesa.Campo"
+                android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp"
+                android:hint="Buscar lista" android:visibility="gone" app:endIconMode="clear_text">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/campoBusca"
+                    android:layout_width="match_parent" android:layout_height="wrap_content" android:maxLines="1" android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Ativas / Histórico -->
+            <com.google.android.material.button.MaterialButtonToggleGroup android:id="@+id/abas"
+                android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp"
+                app:singleSelection="true" app:selectionRequired="true" app:checkedButton="@id/abaAtivas">
+                <com.google.android.material.button.MaterialButton android:id="@+id/abaAtivas" style="@style/Spesa.Segmento"
+                    android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Ativas" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/abaHistorico" style="@style/Spesa.Segmento"
+                    android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Histórico" />
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            <!-- Conteúdo da aba Ativas -->
+            <LinearLayout android:id="@+id/blocoAtivas" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp" android:layout_marginBottom="10dp" android:gravity="center_vertical">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Pastas" style="@style/Spesa.Secao" />
+                    <TextView android:id="@+id/novaPasta" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:padding="6dp" android:text="+ Nova pasta" android:textColor="@color/primaria" android:textSize="13sp" android:textStyle="bold" />
+                </LinearLayout>
+                <!-- As pastas entram aqui, duas por linha (montadas no código) -->
+                <LinearLayout android:id="@+id/pastas" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" />
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp" android:layout_marginBottom="8dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Todas as listas" style="@style/Spesa.Secao" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Mais recentes" style="@style/Spesa.Suave" />
+                </LinearLayout>
+                <LinearLayout android:id="@+id/listas" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" />
+            </LinearLayout>
+
+            <!-- Primeira lista: aparece quando não há nenhuma lista ativa -->
+            <LinearLayout android:id="@+id/vazio" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="40dp" android:gravity="center_horizontal" android:orientation="vertical" android:visibility="gone">
+                <FrameLayout android:layout_width="120dp" android:layout_height="120dp" android:background="@drawable/bg_circulo_suave">
+                    <ImageView android:layout_width="60dp" android:layout_height="60dp" android:layout_gravity="center"
+                        android:src="@drawable/ic_basket" app:tint="@color/primaria" android:contentDescription="@null" />
+                </FrameLayout>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="14dp"
+                    android:text="Sua primeira lista" android:textAppearance="@style/Spesa.Titulo" android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold" android:textColor="@color/texto" />
+                <TextView android:layout_width="290dp" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:gravity="center"
+                    android:text="Anote o que precisa comprar, veja o total em tempo real e compare os preços dos mercados."
+                    android:textColor="@color/texto_suave" android:textSize="15sp" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/criarPrimeira" style="@style/Spesa.Botao"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16dp"
+                    android:paddingStart="28dp" android:paddingEnd="28dp" android:text="Criar lista" app:icon="@drawable/ic_plus" app:cornerRadius="28dp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="14dp"
+                    android:text="Ou comece com uma lista pronta:" android:textColor="@color/texto_suave" android:textSize="14sp" />
+                <com.google.android.material.chip.ChipGroup android:id="@+id/modelos" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_marginTop="6dp" />
+            </LinearLayout>
+
+            <!-- Conteúdo da aba Histórico -->
+            <LinearLayout android:id="@+id/blocoHistorico" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:visibility="gone" />
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton android:id="@+id/botaoNovaLista"
+        android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="bottom|end"
+        android:layout_margin="20dp" android:text="Nova lista" android:textAllCaps="false" android:textStyle="bold"
+        app:icon="@drawable/ic_plus" app:iconTint="@color/white" android:textColor="@color/white"
+        app:backgroundTint="@color/primaria" />
+</FrameLayout>

@@ -7,6 +7,11 @@ data class ListaDeCompras(
     var finalizada: Boolean = false,
     var orcamento: Double = 0.0,        // 0 = sem teto de gastos
     var itens: MutableList<ItemLista> = mutableListOf(),
+    // Campos novos (podem vir vazios de listas antigas, por isso aceitam null)
+    var pastaId: Long? = null,           // em qual pasta a lista está
+    var finalizadaEm: Long? = null,      // quando a compra foi finalizada
+    var mercadoCompraId: Long? = null,   // onde a compra foi feita
+    var totalPago: Double? = null,       // quanto foi pago ao finalizar
 ) {
     /** Soma de tudo que já está no carrinho. */
     fun totalNoCarrinho(): Double = itens.filter { it.noCarrinho }.sumOf { it.total() }
@@ -26,6 +31,7 @@ data class ListaDeCompras(
     fun clonar(novoTitulo: String): ListaDeCompras = ListaDeCompras(
         titulo = novoTitulo,
         orcamento = orcamento,
+        pastaId = pastaId,
         itens = itens.map { it.copy(id = System.nanoTime(), noCarrinho = false) }.toMutableList(),
     )
 }

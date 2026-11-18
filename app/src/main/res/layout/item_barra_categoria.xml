@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Uma linha do "Para onde foi o dinheiro": nome, barrinha e valor -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:gravity="center_vertical" android:paddingTop="5dp" android:paddingBottom="5dp">
+    <TextView android:id="@+id/nome" android:layout_width="96dp" android:layout_height="wrap_content" android:textSize="14sp" />
+    <ProgressBar android:id="@+id/barra" style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp" android:layout_height="8dp" android:layout_weight="1"
+        android:progressDrawable="@drawable/barra_orcamento" />
+    <TextView android:id="@+id/valor" android:layout_width="104dp" android:layout_height="wrap_content"
+        android:gravity="end" android:textSize="14sp" android:textStyle="bold" />
+</LinearLayout>

@@ -38,4 +38,11 @@
             android:digits="0123456789.,"
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Em qual pasta a lista fica (os chips são criados no código, um por pasta) -->
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_marginTop="12dp" android:text="Pasta" android:textStyle="bold" />
+    <com.google.android.material.chip.ChipGroup android:id="@+id/grupoPastas"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        app:singleSelection="true" />
 </LinearLayout>

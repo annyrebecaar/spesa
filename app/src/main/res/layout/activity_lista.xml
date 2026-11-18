@@ -44,100 +44,57 @@
                 android:visibility="gone" />
         </FrameLayout>
 
-        <!-- Rodapé fixo com a soma em tempo real -->
-        <com.google.android.material.card.MaterialCardView
-            style="@style/Spesa.Card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="0dp"
-            app:strokeWidth="0dp"
-            app:cardElevation="8dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingStart="20dp"
-                android:paddingTop="14dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="16dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/no_carrinho"
-                            android:textColor="@color/texto_suave"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/valorCarrinho"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/primaria"
-                            android:textSize="24sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/valorFalta"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/texto"
-                            android:textSize="13sp" />
-
-                        <TextView
-                            android:id="@+id/valorTotal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/texto_suave"
-                            android:textSize="13sp" />
-                    </LinearLayout>
+        <!-- Rodapé verde fixo: soma em tempo real, orçamento e o botão Finalizar compra -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:background="@drawable/bg_rodape_lista" android:orientation="vertical"
+            android:paddingStart="20dp" android:paddingTop="16dp" android:paddingEnd="20dp" android:paddingBottom="16dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="No carrinho"
+                        android:textColor="@color/sobre_primaria_suave" android:textSize="12sp" />
+                    <TextView android:id="@+id/valorCarrinho" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold" android:textColor="@color/white" android:textSize="21sp" />
                 </LinearLayout>
-
-                <!-- Teto de gastos: só aparece se a lista tiver orçamento -->
-                <LinearLayout
-                    android:id="@+id/blocoOrcamento"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <ProgressBar
-                        android:id="@+id/barraOrcamento"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="8dp"
-                        android:max="100"
-                        android:progressDrawable="@drawable/barra_orcamento" />
-
-                    <TextView
-                        android:id="@+id/textoOrcamento"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:textColor="@color/texto_suave"
-                        android:textSize="12sp" />
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Falta"
+                        android:textColor="@color/sobre_primaria_suave" android:textSize="12sp" />
+                    <TextView android:id="@+id/valorFalta" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold" android:textColor="@color/white" android:textSize="21sp" />
+                </LinearLayout>
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:gravity="end" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Total estimado"
+                        android:textColor="@color/sobre_primaria_suave" android:textSize="12sp" />
+                    <TextView android:id="@+id/valorTotal" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold" android:textColor="@color/white" android:textSize="21sp" />
                 </LinearLayout>
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+
+            <!-- Teto de gastos: só aparece se a lista tiver orçamento -->
+            <LinearLayout android:id="@+id/blocoOrcamento" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" android:orientation="vertical" android:visibility="gone">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                    <TextView android:id="@+id/textoOrcamento" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                        android:textColor="@color/sobre_primaria_suave" android:textSize="12sp" />
+                    <TextView android:id="@+id/textoSobra" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:textColor="@color/white" android:textSize="12sp" android:textStyle="bold" />
+                </LinearLayout>
+                <ProgressBar android:id="@+id/barraOrcamento" style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent" android:layout_height="6dp" android:layout_marginTop="4dp"
+                    android:max="100" android:progressDrawable="@drawable/barra_orcamento" />
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp">
+                <com.google.android.material.button.MaterialButton android:id="@+id/botaoFinalizar"
+                    style="@style/Spesa.Botao" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Finalizar compra" android:textColor="@color/primaria" app:backgroundTint="@color/creme_fixo"
+                    app:icon="@drawable/ic_check_line" app:iconTint="@color/primaria" app:iconGravity="textStart" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/botaoComparar"
+                    style="@style/Widget.Material3.Button.OutlinedButton" android:layout_width="56dp" android:layout_height="56dp"
+                    android:layout_marginStart="10dp" android:insetTop="0dp" android:insetBottom="0dp" android:padding="0dp"
+                    android:contentDescription="Comparar mercados" app:cornerRadius="16dp" app:icon="@drawable/ic_chart"
+                    app:iconGravity="textStart" app:iconPadding="0dp" app:iconTint="@color/white" app:strokeColor="@color/sobre_primaria_suave" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -146,7 +103,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="112dp"
+        android:layout_marginBottom="196dp"
         android:contentDescription="@string/novo_item"
-        app:srcCompat="@drawable/ic_add" />
+        app:srcCompat="@drawable/ic_add" app:backgroundTint="@color/primaria" app:tint="@color/white" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

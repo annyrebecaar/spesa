@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Para mostrar as notificações dos lembretes (Android 13+ pede ao usuário) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -23,7 +26,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.MainActivity" android:exported="false" />
+        <activity android:name=".ui.MainActivity" android:exported="false" android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.ListaActivity" android:exported="false" />
         <activity android:name=".ui.ItemFormActivity" android:exported="false"
             android:windowSoftInputMode="adjustResize" />
@@ -32,6 +35,14 @@
         <activity android:name=".ui.ProdutoFormActivity" android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.ComparativoActivity" android:exported="false" />
+        <activity android:name=".ui.LoginActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ui.CadastroActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ui.PastaActivity" android:exported="false" />
+        <activity android:name=".ui.LancamentoFormActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ui.LembreteFormActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+
+        <!-- Recebe a hora do aviso de um lembrete e mostra a notificação -->
+        <receiver android:name=".util.AvisoReceiver" android:exported="false" />
     </application>
 
 </manifest>

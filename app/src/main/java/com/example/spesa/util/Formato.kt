@@ -15,8 +15,12 @@ object Formato {
     fun reais(valor: Double): String = moeda.format(valor)
 
     /** Lê o que o usuário digitou aceitando vírgula ou ponto: "12,50" -> 12.5 */
-    fun lerReais(texto: String): Double =
-        texto.replace("R$", "").trim().replace(",", ".").toDoubleOrNull() ?: 0.0
+    fun lerReais(texto: String): Double {
+        var t = texto.replace("R$", "").trim()
+        // "1.234,56": o ponto é separador de milhar, então tiramos ele antes
+        if (t.contains(",") && t.contains(".")) t = t.replace(".", "")
+        return t.replace(",", ".").toDoubleOrNull() ?: 0.0
+    }
 
     fun data(millis: Long): String = data.format(Date(millis))
 }

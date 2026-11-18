@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Janela que sobe ao tocar em "Finalizar compra" -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="vertical" android:paddingStart="20dp" android:paddingTop="8dp" android:paddingEnd="20dp" android:paddingBottom="24dp">
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
+        <FrameLayout android:layout_width="48dp" android:layout_height="48dp" android:background="@drawable/bg_circulo_suave">
+            <ImageView android:layout_width="26dp" android:layout_height="26dp" android:layout_gravity="center"
+                android:src="@drawable/ic_check_line" app:tint="@color/primaria" android:contentDescription="@null" />
+        </FrameLayout>
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Compra finalizada!"
+                android:textAppearance="@style/Spesa.Titulo" android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold" android:textColor="@color/texto" android:textSize="22sp" />
+            <TextView android:id="@+id/quantos" android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/Spesa.Suave" android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp"
+        android:background="@drawable/bg_trilho" android:gravity="center_vertical" android:padding="14dp">
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Total pago (pode corrigir)" style="@style/Spesa.Suave" />
+            <EditText android:id="@+id/campoTotal" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:background="@null" android:digits="0123456789.," android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold"
+                android:inputType="numberDecimal" android:textColor="@color/texto" android:textSize="28sp" android:importantForAutofill="no" />
+        </LinearLayout>
+        <TextView android:id="@+id/orcamento" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:gravity="end" style="@style/Spesa.Suave" />
+    </LinearLayout>
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="14dp"
+        android:text="Onde você comprou?" android:textStyle="bold" />
+    <com.google.android.material.chip.ChipGroup android:id="@+id/mercados" android:layout_width="match_parent"
+        android:layout_height="wrap_content" app:singleSelection="true" />
+
+    <com.google.android.material.checkbox.MaterialCheckBox android:id="@+id/lancar"
+        android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp"
+        android:background="@drawable/bg_creme" android:checked="true" android:padding="8dp" />
+
+    <com.google.android.material.button.MaterialButton android:id="@+id/concluir" style="@style/Spesa.Botao"
+        android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp" android:text="Concluir" />
+    <TextView android:id="@+id/voltar" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:gravity="center" android:padding="10dp" android:text="Voltar para a lista"
+        android:textColor="@color/texto_suave" android:textStyle="bold" />
+</LinearLayout>

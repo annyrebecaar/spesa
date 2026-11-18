@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tema escuro: só as cores de fundo e texto mudam; o resto vem do values/colors.xml -->
+    <color name="fundo">#111A16</color>
+    <color name="superficie">#1A2621</color>
+    <color name="trilho">#22302A</color>
+    <color name="borda">#2C3B34</color>
+    <color name="borda_forte">#3A4A42</color>
+    <color name="texto">#ECF1EE</color>
+    <color name="texto_suave">#A3B2AA</color>
+    <color name="creme">#26302A</color>
+    <color name="primaria_clara">#24392F</color>
+    <color name="promo_clara">#3A2421</color>
+    <color name="entrada_clara">#1F3428</color>
+    <color name="amarelo_claro">#3A3220</color>
+</resources>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/fundo">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="20dp">
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16dp"
+            android:text="Ajustes" android:textAppearance="@style/Spesa.Titulo" android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold" android:textColor="@color/texto" android:textSize="28sp" />
+
+        <!-- Cartão do perfil -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp"
+            android:background="@drawable/bg_saldo" android:gravity="center_vertical" android:padding="16dp">
+            <TextView android:id="@+id/avatar" android:layout_width="52dp" android:layout_height="52dp"
+                android:background="@drawable/bg_avatar_creme" android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold" android:gravity="center"
+                android:textColor="@color/primaria" android:textSize="22sp" />
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:layout_marginStart="12dp" android:orientation="vertical">
+                <TextView android:id="@+id/nome" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold" android:textColor="@color/creme" android:textSize="19sp" />
+                <TextView android:id="@+id/email" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="@color/sobre_primaria_suave" android:textSize="13sp" />
+            </LinearLayout>
+            <TextView android:id="@+id/editarPerfil" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:background="@drawable/bg_saldo_bloco" android:paddingStart="14dp" android:paddingTop="8dp" android:paddingEnd="14dp"
+                android:paddingBottom="8dp" android:text="Editar" android:textColor="@color/white" android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView style="@style/Spesa.Rotulo" android:text="PREFERÊNCIAS" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:background="@drawable/bg_card" android:orientation="vertical">
+            <LinearLayout style="@style/Spesa.ItemAjuste">
+                <ImageView style="@style/Spesa.IconeAjuste" android:src="@drawable/ic_coin" />
+                <TextView style="@style/Spesa.TextoAjuste" android:text="Moeda" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Real (R$)" style="@style/Spesa.Suave" android:textSize="14sp" />
+            </LinearLayout>
+            <View style="@style/Spesa.Divisor" />
+            <LinearLayout style="@style/Spesa.ItemAjuste">
+                <ImageView style="@style/Spesa.IconeAjuste" android:src="@drawable/ic_bell" />
+                <TextView style="@style/Spesa.TextoAjuste" android:text="Lembretes de compras e contas" />
+                <com.google.android.material.materialswitch.MaterialSwitch android:id="@+id/lembretes"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            </LinearLayout>
+            <View style="@style/Spesa.Divisor" />
+            <LinearLayout style="@style/Spesa.ItemAjuste">
+                <ImageView style="@style/Spesa.IconeAjuste" android:src="@drawable/ic_sun" />
+                <TextView style="@style/Spesa.TextoAjuste" android:text="Tema" />
+                <com.google.android.material.button.MaterialButtonToggleGroup android:id="@+id/tema"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    app:singleSelection="true" app:selectionRequired="true">
+                    <com.google.android.material.button.MaterialButton android:id="@+id/temaClaro" style="@style/Spesa.Segmento"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content" android:minHeight="38dp" android:text="Claro" />
+                    <com.google.android.material.button.MaterialButton android:id="@+id/temaEscuro" style="@style/Spesa.Segmento"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content" android:minHeight="38dp" android:text="Escuro" />
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView style="@style/Spesa.Rotulo" android:text="COMPRAS" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:background="@drawable/bg_card" android:orientation="vertical">
+            <LinearLayout android:id="@+id/irMercados" style="@style/Spesa.ItemAjuste">
+                <ImageView style="@style/Spesa.IconeAjuste" android:src="@drawable/ic_store" />
+                <TextView style="@style/Spesa.TextoAjuste" android:text="Mercados" />
+                <ImageView style="@style/Spesa.SetaAjuste" />
+            </LinearLayout>
+            <View style="@style/Spesa.Divisor" />
+            <LinearLayout android:id="@+id/irDespensa" style="@style/Spesa.ItemAjuste">
+                <ImageView style="@style/Spesa.IconeAjuste" android:src="@drawable/ic_basket" />
+                <TextView style="@style/Spesa.TextoAjuste" android:text="Despensa (produtos e preços)" />
+                <ImageView style="@style/Spesa.SetaAjuste" />
+            </LinearLayout>
+            <View style="@style/Spesa.Divisor" />
+            <LinearLayout android:id="@+id/gerenciarPastas" style="@style/Spesa.ItemAjuste">
+                <ImageView style="@style/Spesa.IconeAjuste" android:src="@drawable/ic_folder" />
+                <TextView style="@style/Spesa.TextoAjuste" android:text="Gerenciar pastas" />
+                <ImageView style="@style/Spesa.SetaAjuste" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView style="@style/Spesa.Rotulo" android:text="CONTA E DADOS" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:background="@drawable/bg_card" android:orientation="vertical">
+            <LinearLayout android:id="@+id/senha" style="@style/Spesa.ItemAjuste">
+                <ImageView style="@style/Spesa.IconeAjuste" android:src="@drawable/ic_lock" />
+                <TextView style="@style/Spesa.TextoAjuste" android:text="Senha e segurança" />
+                <ImageView style="@style/Spesa.SetaAjuste" />
+            </LinearLayout>
+            <View style="@style/Spesa.Divisor" />
+            <LinearLayout android:id="@+id/backup" style="@style/Spesa.ItemAjuste">
+                <ImageView style="@style/Spesa.IconeAjuste" android:src="@drawable/ic_cloud" />
+                <TextView style="@style/Spesa.TextoAjuste" android:text="Backup dos dados" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Exportar"
+                    android:textColor="@color/primaria" android:textStyle="bold" />
+            </LinearLayout>
+            <View style="@style/Spesa.Divisor" />
+            <LinearLayout android:id="@+id/ajuda" style="@style/Spesa.ItemAjuste">
+                <ImageView style="@style/Spesa.IconeAjuste" android:src="@drawable/ic_help" />
+                <TextView style="@style/Spesa.TextoAjuste" android:text="Ajuda e sobre o Spesa" />
+                <ImageView style="@style/Spesa.SetaAjuste" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton android:id="@+id/sair" style="@style/Spesa.BotaoBorda"
+            android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp" android:text="Sair da conta" android:textColor="@color/promo" app:strokeColor="@color/promo" />
+    </LinearLayout>
+</ScrollView>

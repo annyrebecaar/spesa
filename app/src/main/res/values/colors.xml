@@ -1,32 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--
-      PALETA DO APP: "Italiana elegante".
-      Verde-garrafa escuro como cor principal, fundo creme, vermelho queimado
-      (da bandeira) reservado para promoção e para o teto estourado.
+      PALETA DO APP (igual ao protótipo de 18/11/2026).
+      Verde-garrafa como cor principal, fundo claro esverdeado,
+      vermelho para saída/promoção e amarelo para atenção.
       Para mudar a cara do app inteiro, basta trocar os valores aqui.
     -->
-    <color name="primaria">#1F4A3A</color>
-    <color name="primaria_escura">#122E24</color>
-    <color name="primaria_clara">#DCE7E0</color>
+    <color name="primaria">#1F4D3B</color>
+    <color name="primaria_escura">#163A2C</color>
+    <color name="primaria_clara">#E3EEE7</color>
+    <color name="primaria_media">#347A5B</color>
     <color name="sobre_primaria">#FFFFFF</color>
+    <color name="sobre_primaria_suave">#CFE0D5</color>
 
-    <color name="fundo">#F6F4EE</color>
+    <color name="fundo">#F5F6F3</color>
     <color name="superficie">#FFFFFF</color>
-    <color name="borda">#E3E0D7</color>
-    <color name="texto">#1A1E1C</color>
-    <color name="texto_suave">#666E69</color>
+    <color name="trilho">#E8ECE9</color>
+    <color name="borda">#E1E6E2</color>
+    <color name="borda_forte">#D2DAD5</color>
+    <color name="texto">#1B2A23</color>
+    <color name="texto_suave">#5A6B62</color>
+    <color name="creme">#F6F2E8</color>
+    <color name="creme_fixo">#F6F2E8</color>
 
-    <!-- Destaque exclusivo para itens em promoção (vermelho italiano, tom escuro) -->
-    <color name="promo">#B23A33</color>
+    <!-- Promoção, saída de dinheiro e teto estourado -->
+    <color name="promo">#B83A2E</color>
     <color name="promo_texto">#FFFFFF</color>
+    <color name="promo_clara">#FBE4E1</color>
+    <color name="entrada">#2E7D52</color>
+    <color name="entrada_clara">#E3F1E8</color>
+    <color name="amarelo">#F5B800</color>
+    <color name="amarelo_claro">#FFF4D1</color>
 
     <!-- Barra do teto de gastos -->
-    <color name="orcamento_ok">#3A7D5C</color>
+    <color name="orcamento_ok">#347A5B</color>
     <color name="orcamento_atencao">#C9962B</color>
-    <color name="orcamento_estouro">#B23A33</color>
+    <color name="orcamento_estouro">#B83A2E</color>
 
-    <!-- Etiquetas de categoria (tons um pouco mais fechados, para combinar) -->
+    <!-- Cores das pastas -->
+    <color name="pasta_verde">#1F4D3B</color>
+    <color name="pasta_vermelha">#B83A2E</color>
+    <color name="pasta_amarela">#F5B800</color>
+    <color name="pasta_salvia">#6E8B7B</color>
+
+    <!-- Etiquetas de categoria de produto -->
     <color name="cat_alimentos">#C96A36</color>
     <color name="cat_bebidas">#3C6FB5</color>
     <color name="cat_hortifruti">#4E8F4A</color>
@@ -36,6 +53,14 @@
     <color name="cat_acougue">#A3312E</color>
     <color name="cat_beleza">#C25483</color>
     <color name="cat_outros">#7E8782</color>
+
+    <!-- Categorias das finanças -->
+    <color name="fin_moradia">#1F4D3B</color>
+    <color name="fin_mercado">#3E9A6E</color>
+    <color name="fin_transporte">#B83A2E</color>
+    <color name="fin_lazer">#F5B800</color>
+    <color name="fin_contas">#7E8782</color>
+    <color name="fin_renda">#2E7D52</color>
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>

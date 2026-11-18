@@ -20,11 +20,15 @@
         <item name="colorSurfaceContainerHighest">@color/borda</item>
         <item name="colorSurfaceVariant">@color/borda</item>
         <item name="elevationOverlayEnabled">false</item>
+        <!-- Fonte do app inteiro: Nunito (títulos usam Fraunces, no estilo Spesa.Titulo) -->
+        <item name="fontFamily">@font/nunito</item>
+        <item name="android:fontFamily">@font/nunito</item>
+        <item name="bottomNavigationStyle">@style/Spesa.MenuInferior</item>
         <item name="android:colorBackground">@color/fundo</item>
         <item name="android:statusBarColor">@color/fundo</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightStatusBar">@bool/barra_clara</item>
         <item name="android:navigationBarColor">@color/superficie</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">@bool/barra_clara</item>
     </style>
 
     <!-- Tela de abertura: fundo na cor principal -->
@@ -38,8 +42,8 @@
     <!-- Estilos reaproveitados -->
     <!-- Títulos em serifa (Playfair Display), o toque italiano do app -->
     <style name="Spesa.Titulo" parent="TextAppearance.Material3.HeadlineSmall">
-        <item name="fontFamily">@font/playfair_display</item>
-        <item name="android:fontFamily">@font/playfair_display</item>
+        <item name="fontFamily">@font/fraunces_bold</item>
+        <item name="android:fontFamily">@font/fraunces_bold</item>
         <item name="android:textColor">@color/texto</item>
         <item name="android:textSize">24sp</item>
     </style>
@@ -75,5 +79,141 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/bg_tag</item>
+    </style>
+
+    <!-- Título de seção (ex.: "Pastas", "Na agenda") -->
+    <style name="Spesa.Secao" parent="">
+        <item name="android:fontFamily">@font/fraunces_bold</item>
+        <item name="fontFamily">@font/fraunces_bold</item>
+        <item name="android:textColor">@color/texto</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <!-- Texto pequeno e cinza -->
+    <style name="Spesa.Suave" parent="">
+        <item name="android:textColor">@color/texto_suave</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <!-- Botão principal (verde, cheio) -->
+    <style name="Spesa.Botao" parent="Widget.Material3.Button">
+        <item name="android:minHeight">56dp</item>
+        <item name="cornerRadius">16dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <!-- Botão com borda -->
+    <style name="Spesa.BotaoBorda" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:minHeight">52dp</item>
+        <item name="cornerRadius">16dp</item>
+        <item name="strokeColor">@color/primaria</item>
+        <item name="android:textColor">@color/primaria</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <!-- Chips de escolha (categorias, repetir, avisar...) -->
+    <style name="Spesa.Chip" parent="Widget.Material3.Chip.Filter">
+        <item name="chipBackgroundColor">@color/chip_fundo</item>
+        <item name="chipStrokeColor">@color/chip_borda</item>
+        <item name="chipStrokeWidth">1.5dp</item>
+        <item name="android:textColor">@color/chip_texto</item>
+        <item name="chipCornerRadius">999dp</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="chipMinHeight">40dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Menu inferior com 5 abas -->
+    <style name="Spesa.MenuInferior" parent="Widget.Material3.BottomNavigationView">
+        <item name="backgroundTint">@color/superficie</item>
+        <item name="itemActiveIndicatorStyle">@style/Spesa.MenuInferior.Indicador</item>
+        <item name="itemIconTint">@color/menu_cor</item>
+        <item name="itemTextColor">@color/menu_cor</item>
+        <item name="labelVisibilityMode">labeled</item>
+    </style>
+    <style name="Spesa.MenuInferior.Indicador" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/primaria_clara</item>
+    </style>
+
+    <!-- Botões quadradinhos de atalho na tela de Início -->
+    <style name="Spesa.Atalho" parent="">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">68dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/bg_atalho</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:drawablePadding">2dp</item>
+        <item name="android:drawableTint">@color/primaria</item>
+        <item name="android:textColor">@color/primaria</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <!-- Botões de segmento (Ativas/Histórico, Dia/Semana/Mês, Saída/Entrada...) -->
+    <style name="Spesa.Segmento" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:minHeight">44dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="strokeColor">@color/trilho</item>
+        <item name="backgroundTint">@color/segmento_fundo</item>
+        <item name="android:textColor">@color/segmento_texto</item>
+        <item name="cornerRadius">12dp</item>
+    </style>
+
+    <!-- Linhas da tela de Ajustes -->
+    <style name="Spesa.Rotulo" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:textColor">@color/texto_suave</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.06</item>
+    </style>
+    <style name="Spesa.ItemAjuste" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">14dp</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+    <style name="Spesa.IconeAjuste" parent="">
+        <item name="android:layout_width">22dp</item>
+        <item name="android:layout_height">22dp</item>
+        <item name="android:layout_marginEnd">14dp</item>
+        <item name="tint">@color/texto</item>
+        <item name="android:importantForAccessibility">no</item>
+    </style>
+    <style name="Spesa.TextoAjuste" parent="">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/texto</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="Spesa.SetaAjuste" parent="">
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:src">@drawable/ic_chevron_right</item>
+        <item name="tint">@color/texto_suave</item>
+        <item name="android:importantForAccessibility">no</item>
+    </style>
+    <style name="Spesa.Divisor" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginStart">52dp</item>
+        <item name="android:background">@color/borda</item>
     </style>
 </resources>
