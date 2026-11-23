@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.example.spesa.R
+import com.example.spesa.util.Formato
 import com.example.spesa.dados.Repositorio
 import com.example.spesa.databinding.SheetCompartilharBinding
 import com.example.spesa.databinding.SheetListaBinding
@@ -316,5 +317,27 @@ object Telas {
             android.widget.Toast.makeText(activity, "$n lista(s) importada(s)!", android.widget.Toast.LENGTH_SHORT).show()
             j.dismiss(); depois()
         }
+    }
+
+    /** Janela com um campo para digitar um valor em reais. Deixar vazio ou 0 apaga (sem meta/teto). */
+    fun pedirValor(activity: Activity, titulo: String, atual: Double, aoSalvar: (Double) -> Unit) {
+        val campo = android.widget.EditText(activity).apply {
+            hint = "0,00 (vazio = sem limite)"
+            inputType = android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
+            keyListener = android.text.method.DigitsKeyListener.getInstance("0123456789,.")
+            if (atual > 0) setText(Formato.numero(atual))
+        }
+        // um espacinho em volta do campo
+        val caixa = android.widget.FrameLayout(activity).apply {
+            val p = (20 * activity.resources.displayMetrics.density).toInt()
+            setPadding(p, p / 2, p, 0)
+            addView(campo)
+        }
+        com.google.android.material.dialog.MaterialAlertDialogBuilder(activity)
+            .setTitle(titulo)
+            .setView(caixa)
+            .setNegativeButton(R.string.cancelar, null)
+            .setPositiveButton("Salvar") { _, _ -> aoSalvar(Formato.lerReais(campo.text.toString())) }
+            .show()
     }
 }

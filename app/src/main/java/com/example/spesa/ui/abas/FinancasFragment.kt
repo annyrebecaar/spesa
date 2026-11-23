@@ -91,6 +91,7 @@ class FinancasFragment : Fragment() {
 
         mostrarQuantoSaiu()
         mostrarAPagar()
+        mostrarMeta()
         mostrarCategorias(doPeriodo)
         mostrarPlanilha(doPeriodo, entrou, saiu)
     }
@@ -171,6 +172,8 @@ class FinancasFragment : Fragment() {
             linha.findViewById<TextView>(R.id.nome).text = cat.rotulo
             linha.findViewById<TextView>(R.id.pct).text = "${if (total > 0) (valor / total * 100).toInt() else 0}%"
             linha.findViewById<TextView>(R.id.valor).text = Formato.reais(valor)
+            mostrarTeto(linha, cat, valor)
+            linha.setOnClickListener { pedirTeto(cat) }
             b.categorias.addView(linha)
         }
         b.barraEmpilhada.visivel(porCategoria.isNotEmpty())
@@ -179,6 +182,63 @@ class FinancasFragment : Fragment() {
                 text = "Sem saídas neste período."
                 setTextColor(Telas.cor(ctx, R.color.texto_suave))
             })
+        }
+    }
+
+    /** meta de economia: quanto sobrou no mês de hoje comparado com a meta */
+    private fun mostrarMeta() {
+        val meta = Repositorio.metaDoMes()
+        b.cartaoMeta.setOnClickListener {
+            Telas.pedirValor(requireActivity(), "Quanto quer guardar por mês?", meta) { novo ->
+                Repositorio.mudarMetaDoMes(novo); atualizar()
+            }
+        }
+        if (meta <= 0) {
+            b.tituloMeta.text = "Defina quanto quer guardar"
+            b.pctMeta.text = ""
+            b.barraMeta.visivel(false)
+            b.textoMeta.text = "Toque aqui para criar uma meta de economia por mês."
+            return
+        }
+        // a meta é sempre do mês atual, não importa o período escolhido em cima
+        val inicio = Datas.inicioDoMes(System.currentTimeMillis())
+        val doMes = Repositorio.lancamentosEntre(inicio, Datas.somarMeses(inicio, 1))
+        val sobrou = doMes.filter { it.entrada }.sumOf { it.valor } - doMes.filter { !it.entrada }.sumOf { it.valor }
+        val pct = (sobrou / meta * 100).toInt().coerceIn(0, 100)
+        b.tituloMeta.text = "Guardar ${Formato.reais(meta)} em ${Datas.mesAnoCurto(inicio)}"
+        b.pctMeta.text = "$pct%"
+        b.barraMeta.visivel(true)
+        b.barraMeta.progress = pct
+        b.textoMeta.text = when {
+            sobrou >= meta -> "Meta batida! Sobrou ${Formato.reais(sobrou)} este mês."
+            sobrou <= 0 -> "Por enquanto não está sobrando nada este mês."
+            else -> "Sobrou ${Formato.reais(sobrou)}, faltam ${Formato.reais(meta - sobrou)}."
+        }
+    }
+
+    /** barrinha embaixo da categoria: quanto do teto já foi usado (só na visão do mês) */
+    private fun mostrarTeto(linha: View, cat: CategoriaGasto, gasto: Double) {
+        val teto = Repositorio.teto(cat)
+        val barra = linha.findViewById<android.widget.ProgressBar>(R.id.barraTeto)
+        val texto = linha.findViewById<TextView>(R.id.textoTeto)
+        val mostrar = teto > 0 && escala == Escala.MES
+        barra.visivel(mostrar)
+        texto.visivel(mostrar)
+        if (!mostrar) return
+        barra.progress = (gasto / teto * 100).toInt().coerceIn(0, 100)
+        val estourou = gasto > teto
+        // passou do teto: barra e texto ficam vermelhos
+        val cor = Telas.cor(requireContext(), if (estourou) R.color.promo else R.color.primaria)
+        barra.progressTintList = android.content.res.ColorStateList.valueOf(cor)
+        texto.text = if (estourou) "passou ${Formato.reais(gasto - teto)} do teto de ${Formato.reais(teto)}"
+            else "teto ${Formato.reais(teto)} · ainda pode ${Formato.reais(teto - gasto)}"
+        texto.setTextColor(if (estourou) cor else Telas.cor(requireContext(), R.color.texto_suave))
+    }
+
+    private fun pedirTeto(cat: CategoriaGasto) {
+        if (cat == CategoriaGasto.RENDA) return
+        Telas.pedirValor(requireActivity(), "Teto de ${cat.rotulo} por mês", Repositorio.teto(cat)) { novo ->
+            Repositorio.mudarTeto(cat, novo); atualizar()
         }
     }
 

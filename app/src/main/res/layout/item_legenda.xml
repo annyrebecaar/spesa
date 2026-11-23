@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- legenda do gráfico: bolinha da cor, nome, % e valor -->
+<!-- legenda do gráfico: bolinha da cor, nome, % e valor. Embaixo, a barrinha do teto (só se tiver teto) -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="wrap_content"
-    android:gravity="center_vertical" android:paddingTop="4dp" android:paddingBottom="4dp">
-    <View android:id="@+id/cor" android:layout_width="10dp" android:layout_height="10dp" android:background="@drawable/bg_avatar" />
-    <TextView android:id="@+id/nome" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
-        android:layout_marginStart="8dp" android:textColor="@color/texto" android:textSize="14sp" />
-    <TextView android:id="@+id/pct" android:layout_width="44dp" android:layout_height="wrap_content" android:gravity="end"
-        android:textColor="@color/texto_suave" android:textSize="13sp" />
-    <TextView android:id="@+id/valor" android:layout_width="110dp" android:layout_height="wrap_content" android:gravity="end"
-        android:textColor="@color/texto" android:textSize="14sp" android:textStyle="bold" />
+    android:orientation="vertical" android:paddingTop="6dp" android:paddingBottom="6dp"
+    android:background="?attr/selectableItemBackground">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
+        <View android:id="@+id/cor" android:layout_width="10dp" android:layout_height="10dp" android:background="@drawable/bg_avatar" />
+        <TextView android:id="@+id/nome" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+            android:layout_marginStart="8dp" android:textColor="@color/texto" android:textSize="14sp" />
+        <TextView android:id="@+id/pct" android:layout_width="44dp" android:layout_height="wrap_content" android:gravity="end"
+            android:textColor="@color/texto_suave" android:textSize="13sp" />
+        <TextView android:id="@+id/valor" android:layout_width="110dp" android:layout_height="wrap_content" android:gravity="end"
+            android:textColor="@color/texto" android:textSize="14sp" android:textStyle="bold" />
+    </LinearLayout>
+    <ProgressBar android:id="@+id/barraTeto" style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent" android:layout_height="6dp" android:layout_marginStart="18dp" android:layout_marginTop="6dp"
+        android:max="100" android:progressDrawable="@drawable/barra_teto" android:visibility="gone" />
+    <TextView android:id="@+id/textoTeto" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_marginStart="18dp" android:layout_marginTop="2dp" android:textColor="@color/texto_suave" android:textSize="12sp"
+        android:visibility="gone" />
 </LinearLayout>

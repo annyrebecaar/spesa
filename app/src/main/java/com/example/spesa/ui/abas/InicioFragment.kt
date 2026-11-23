@@ -33,7 +33,7 @@ class InicioFragment : Fragment() {
     override fun onViewCreated(view: View, s: Bundle?) {
         val main = requireActivity() as MainActivity
         b.avatar.setOnClickListener { main.irPara(R.id.aba_ajustes) }
-        b.cartaoSaldo.setOnClickListener { main.irPara(R.id.aba_financas) }
+        b.cartaoSaldo.setOnClickListener { (requireActivity() as MainActivity).irPara(R.id.aba_financas) }
         b.verListas.setOnClickListener { main.irPara(R.id.aba_listas) }
         b.verAgenda.setOnClickListener { main.irPara(R.id.aba_agenda) }
         b.agendaVazia.setOnClickListener { startActivity(Intent(requireContext(), LembreteFormActivity::class.java)) }
@@ -87,6 +87,17 @@ class InicioFragment : Fragment() {
                     Repositorio.pagarConta(conta); atualizar()
                 }
             }
+        }
+        // faixa amarela pra categoria que passou do teto do mês
+        Repositorio.tetosEstourados().forEach { (cat, gasto) ->
+            val l = Telas.linha(b.avisos)
+            l.root.setCardBackgroundColor(Telas.cor(ctx, R.color.promo_clara))
+            l.root.strokeColor = Telas.cor(ctx, R.color.promo)
+            l.titulo.text = "${cat.rotulo} passou do teto"
+            l.subtitulo.text = "teto de ${Formato.reais(Repositorio.teto(cat))} no mês"
+            l.valor.text = Formato.reais(gasto)
+            l.valor.setTextColor(Telas.cor(ctx, R.color.promo))
+            l.root.setOnClickListener { (requireActivity() as MainActivity).irPara(R.id.aba_financas) }
         }
     }
 

@@ -192,6 +192,26 @@ object Repositorio {
             .map { it.key to it.value.sumOf { l -> l.valor } }
             .sortedByDescending { it.second }
 
+    // ---------- Metas ----------
+    // guardadas direto nas preferências, separadas das listas
+
+    /** Quanto a pessoa quer que sobre no fim do mês (0 = sem meta). */
+    fun metaDoMes(): Double = prefs.getFloat("meta_mes", 0f).toDouble()
+
+    fun mudarMetaDoMes(valor: Double) = prefs.edit().putFloat("meta_mes", valor.toFloat()).apply()
+
+    /** Teto de gasto por mês de uma categoria (0 = sem teto). */
+    fun teto(cat: CategoriaGasto): Double = prefs.getFloat("teto_${cat.name}", 0f).toDouble()
+
+    fun mudarTeto(cat: CategoriaGasto, valor: Double) = prefs.edit().putFloat("teto_${cat.name}", valor.toFloat()).apply()
+
+    /** Categorias que já passaram do teto neste mês, com quanto foi gasto. */
+    fun tetosEstourados(): List<Pair<CategoriaGasto, Double>> {
+        val inicio = com.example.spesa.util.Datas.inicioDoMes(System.currentTimeMillis())
+        val doMes = lancamentosEntre(inicio, com.example.spesa.util.Datas.somarMeses(inicio, 1))
+        return gastosPorCategoria(doMes).filter { teto(it.first) > 0 && it.second > teto(it.first) }
+    }
+
     // ---------- Agenda ----------
 
     fun lembrete(id: Long): Lembrete? = lembretes.find { it.id == id }
