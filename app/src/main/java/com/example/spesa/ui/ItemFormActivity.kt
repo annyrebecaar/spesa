@@ -15,6 +15,7 @@ import com.example.spesa.model.Mercado
 import com.example.spesa.model.PrecoNoMercado
 import com.example.spesa.model.Produto
 import com.example.spesa.util.Formato
+import com.example.spesa.util.Telas
 import com.example.spesa.util.visivel
 
 /** Formulário para adicionar ou editar um item de uma lista. */
@@ -50,6 +51,28 @@ class ItemFormActivity : AppCompatActivity() {
         itemEditando?.let { preencher(it) }
 
         b.botaoSalvar.setOnClickListener { salvar() }
+
+        // total sempre atualizado: quantidade × preço
+        b.campoPreco.doAfterTextChanged { mostrarTotal() }
+        mostrarTotal()
+
+        // remover só aparece quando está editando um item que já existe
+        b.botaoRemover.visivel(itemEditando != null)
+        b.botaoRemover.setOnClickListener {
+            val item = itemEditando ?: return@setOnClickListener
+            Telas.confirmar(this, "Remover item?", "Tirar \"${item.nome}\" da lista?", "Remover") {
+                lista.itens.remove(item)
+                Repositorio.salvar()
+                finish()
+            }
+        }
+    }
+
+    /** mostra "2 × R$ 5,90" e o total do item */
+    private fun mostrarTotal() {
+        val preco = Formato.lerReais(b.campoPreco.text.toString())
+        b.contaTotal.text = "$quantidade × ${Formato.reais(preco)}"
+        b.valorTotal.text = Formato.reais(preco * quantidade)
     }
 
     private fun prepararCampos() {
@@ -91,6 +114,7 @@ class ItemFormActivity : AppCompatActivity() {
     private fun mudarQuantidade(delta: Int) {
         quantidade = (quantidade + delta).coerceAtLeast(1)
         b.textoQuantidade.text = quantidade.toString()
+        mostrarTotal()
     }
 
     /** Preenche o formulário a partir de um item já existente (modo edição). */
