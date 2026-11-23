@@ -26,6 +26,7 @@ class ProdutoFormActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_PRODUTO_ID = "produto_id"
+        const val EXTRA_MERCADO_ID = "mercado_id"   // veio de dentro de um mercado
     }
 
     private lateinit var b: ActivityProdutoFormBinding
@@ -63,6 +64,10 @@ class ProdutoFormActivity : AppCompatActivity() {
 
         b.botaoAdicionarPreco.setOnClickListener { dialogoPreco(null) }
         b.botaoSalvar.setOnClickListener { salvar() }
+        b.botaoComparar.setOnClickListener {
+            startActivity(android.content.Intent(this, ComparativoActivity::class.java)
+                .putExtra(ComparativoActivity.EXTRA_PRODUTO, produto.id))
+        }
     }
 
     private fun atualizarPrecos() {
@@ -79,7 +84,9 @@ class ProdutoFormActivity : AppCompatActivity() {
         }
         val campos = DialogPrecoBinding.inflate(layoutInflater)
         val mercados = Repositorio.mercados
-        var escolhido = Repositorio.mercado(preco?.mercadoId) ?: mercados[0]
+        // se veio de dentro de um mercado, ele já vem escolhido
+        var escolhido = Repositorio.mercado(preco?.mercadoId)
+            ?: Repositorio.mercado(intent.getLongExtra(EXTRA_MERCADO_ID, -1)) ?: mercados[0]
 
         campos.campoMercado.setAdapter(ArrayAdapter(this, android.R.layout.simple_list_item_1, mercados.map { it.nome }))
         campos.campoMercado.setText(escolhido.nome, false)

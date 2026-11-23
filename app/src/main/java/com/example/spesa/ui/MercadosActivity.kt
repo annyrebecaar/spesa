@@ -27,12 +27,49 @@ class MercadosActivity : AppCompatActivity() {
 
         b.toolbar.setNavigationOnClickListener { finish() }
 
-        adapter = MercadosAdapter(aoClicar = { dialogoMercado(it) }, aoSegurar = ::confirmarExclusao)
+        adapter = MercadosAdapter(aoClicar = ::abrirMercado, aoMenu = ::menuDoMercado)
         b.listaMercados.layoutManager = LinearLayoutManager(this)
         b.listaMercados.adapter = adapter
 
         b.botaoNovoMercado.setOnClickListener { dialogoMercado(null) }
         atualizar()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        atualizar()
+    }
+
+    /** toque no mercado: abre os produtos cadastrados nele */
+    private fun abrirMercado(mercado: Mercado) {
+        startActivity(android.content.Intent(this, ProdutosActivity::class.java)
+            .putExtra(ProdutosActivity.EXTRA_MERCADO_ID, mercado.id))
+    }
+
+    private fun menuDoMercado(mercado: Mercado) {
+        com.example.spesa.util.Telas.menu(this, mercado.nome, listOf(
+            Triple(R.drawable.ic_sliders, "Editar") { dialogoMercado(mercado) },
+            Triple(R.drawable.ic_share, "Compartilhar") { compartilhar(mercado) },
+            Triple(R.drawable.ic_delete, "Excluir") { confirmarExclusao(mercado) },
+        ), perigo = "Excluir")
+    }
+
+    /** manda o mercado e os preços dele como texto (WhatsApp, e-mail...) */
+    private fun compartilhar(mercado: Mercado) {
+        val texto = buildString {
+            appendLine(mercado.nome)
+            if (mercado.endereco.isNotBlank()) appendLine(mercado.endereco)
+            appendLine()
+            Repositorio.produtos.mapNotNull { p -> p.precoEm(mercado.id)?.let { p to it } }
+                .sortedBy { it.first.nome }
+                .forEach { (p, preco) ->
+                    val onde = if (preco.corredor.isNotBlank()) " (${preco.corredor})" else ""
+                    appendLine("• ${p.nome}: ${com.example.spesa.util.Formato.reais(preco.preco)}$onde")
+                }
+        }
+        startActivity(android.content.Intent.createChooser(
+            android.content.Intent(android.content.Intent.ACTION_SEND).setType("text/plain")
+                .putExtra(android.content.Intent.EXTRA_TEXT, texto), "Compartilhar mercado"))
     }
 
     private fun atualizar() {

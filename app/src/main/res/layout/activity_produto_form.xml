@@ -140,6 +140,15 @@
                 android:text="@string/sem_precos"
                 android:textColor="@color/texto_suave"
                 android:textSize="14sp" />
+
+            <!-- abre a comparação só deste produto entre os mercados -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/botaoComparar"
+                style="@style/Spesa.BotaoBorda"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Comparar preço nos mercados" />
         </LinearLayout>
     </ScrollView>
 

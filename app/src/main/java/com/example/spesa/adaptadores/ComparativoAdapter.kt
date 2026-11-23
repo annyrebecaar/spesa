@@ -53,7 +53,7 @@ class ComparativoAdapter : RecyclerView.Adapter<ComparativoAdapter.Linha>() {
         b.detalhe.text = when {
             position == 0 && linhas.size > 1 -> "Mais barato" + aviso(linha)
             linha.itensSemPreco > 0 -> aviso(linha).removePrefix(" · ")
-            else -> "Todos os itens com preço registrado"
+            else -> "Preço registrado neste mercado"
         }
     }
 

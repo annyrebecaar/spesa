@@ -156,6 +156,11 @@ class ItemFormActivity : AppCompatActivity() {
             val promo = if (p.promocao) " (promoção)" else ""
             val onde = if (p.corredor.isNotBlank()) " · ${p.corredor}" else ""
             "${Formato.reais(p.preco)} no $nome$promo$onde"
+        } + "\nToque para comparar os mercados ›"
+        // abre a comparação só deste produto
+        b.dicaPreco.setOnClickListener {
+            startActivity(android.content.Intent(this, ComparativoActivity::class.java)
+                .putExtra(ComparativoActivity.EXTRA_PRODUTO, produto!!.id))
         }
     }
 

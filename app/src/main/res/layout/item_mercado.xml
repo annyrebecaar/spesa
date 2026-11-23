@@ -55,5 +55,15 @@
                 android:textColor="@color/primaria"
                 android:textSize="12sp" />
         </LinearLayout>
+
+        <!-- três pontinhos: editar, compartilhar, excluir -->
+        <ImageButton
+            android:id="@+id/mais"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Mais opções"
+            android:src="@drawable/ic_more"
+            app:tint="@color/texto_suave" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

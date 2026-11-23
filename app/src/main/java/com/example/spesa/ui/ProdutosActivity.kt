@@ -15,6 +15,12 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 /** Despensa: o catálogo de produtos, com busca e favoritos. */
 class ProdutosActivity : AppCompatActivity() {
+    companion object {
+        const val EXTRA_MERCADO_ID = "mercado_id"
+    }
+
+    // quando abre de dentro de um mercado, mostra só os produtos dele
+    private var mercado: com.example.spesa.model.Mercado? = null
 
     private lateinit var b: ActivityProdutosBinding
     private lateinit var adapter: ProdutosAdapter
@@ -26,6 +32,8 @@ class ProdutosActivity : AppCompatActivity() {
         Repositorio.iniciar(this)
 
         b.toolbar.setNavigationOnClickListener { finish() }
+        mercado = Repositorio.mercado(intent.getLongExtra(EXTRA_MERCADO_ID, -1))
+        mercado?.let { b.toolbar.title = it.nome; b.toolbar.subtitle = it.endereco.ifBlank { null } }
 
         adapter = ProdutosAdapter(
             aoClicar = ::abrirFormulario,
@@ -51,6 +59,7 @@ class ProdutosActivity : AppCompatActivity() {
     private fun atualizar() {
         val busca = b.campoBusca.text.toString().trim()
         val filtrados = Repositorio.produtos
+            .filter { p -> mercado == null || p.precoEm(mercado!!.id) != null }
             .filter { busca.isEmpty() || it.nome.contains(busca, ignoreCase = true) || it.marca.contains(busca, ignoreCase = true) }
             .sortedWith(compareByDescending<Produto> { it.favorito }.thenBy { it.nome.lowercase() })
         adapter.atualizar(filtrados)
@@ -60,6 +69,7 @@ class ProdutosActivity : AppCompatActivity() {
     private fun abrirFormulario(produto: Produto?) {
         val intent = Intent(this, ProdutoFormActivity::class.java)
         if (produto != null) intent.putExtra(ProdutoFormActivity.EXTRA_PRODUTO_ID, produto.id)
+        mercado?.let { intent.putExtra(ProdutoFormActivity.EXTRA_MERCADO_ID, it.id) }
         startActivity(intent)
     }
 

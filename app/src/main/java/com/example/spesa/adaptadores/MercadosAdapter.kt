@@ -10,7 +10,7 @@ import com.example.spesa.util.visivel
 
 class MercadosAdapter(
     private val aoClicar: (Mercado) -> Unit,
-    private val aoSegurar: (Mercado) -> Unit,
+    private val aoMenu: (Mercado) -> Unit,
 ) : RecyclerView.Adapter<MercadosAdapter.Linha>() {
 
     private var mercados: List<Mercado> = emptyList()
@@ -42,6 +42,6 @@ class MercadosAdapter(
         }
 
         b.root.setOnClickListener { aoClicar(mercado) }
-        b.root.setOnLongClickListener { aoSegurar(mercado); true }
+        b.mais.setOnClickListener { aoMenu(mercado) }
     }
 }

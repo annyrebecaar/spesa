@@ -17,6 +17,9 @@ import com.example.spesa.model.Mercado
 
 /** Quanto a lista custaria em cada mercado cadastrado, e quanto se economiza no mais barato. */
 class ComparativoActivity : AppCompatActivity() {
+    companion object {
+        const val EXTRA_PRODUTO = "produto_comparar"
+    }
 
     private lateinit var b: ActivityComparativoBinding
 
@@ -26,8 +29,12 @@ class ComparativoActivity : AppCompatActivity() {
         setContentView(b.root)
         Repositorio.iniciar(this)
 
-        val lista = Repositorio.lista(intent.getLongExtra(ListaActivity.EXTRA_LISTA_ID, -1)) ?: run { finish(); return }
         b.toolbar.setNavigationOnClickListener { finish() }
+        // veio de um produto? compara só ele
+        val produto = Repositorio.produto(intent.getLongExtra(EXTRA_PRODUTO, -1))
+        if (produto != null) { compararProduto(produto); return }
+
+        val lista = Repositorio.lista(intent.getLongExtra(ListaActivity.EXTRA_LISTA_ID, -1)) ?: run { finish(); return }
         b.subtitulo.text = "${lista.titulo} · ${lista.itens.size} itens"
 
         // Para cada mercado: total da lista lá + quantos itens não têm preço registrado nele
@@ -98,6 +105,33 @@ class ComparativoActivity : AppCompatActivity() {
             Repositorio.salvar()
             Toast.makeText(this, "Lista atualizada com os preços do ${barato.nome}", Toast.LENGTH_SHORT).show()
             finish()
+        }
+    }
+
+    /** um produto só: o preço dele em cada mercado, do mais barato ao mais caro */
+    private fun compararProduto(produto: com.example.spesa.model.Produto) {
+        b.toolbar.title = "Comparar produto"
+        b.subtitulo.text = produto.nome
+        val linhas = produto.precos.mapNotNull { p ->
+            val mercado = Repositorio.mercado(p.mercadoId) ?: return@mapNotNull null
+            LinhaComparativo(mercado, p.preco, 0)
+        }.sortedBy { it.total }
+
+        val adapter = ComparativoAdapter()
+        b.listaComparativo.layoutManager = LinearLayoutManager(this)
+        b.listaComparativo.adapter = adapter
+        adapter.atualizar(linhas)
+
+        b.blocoDiferencas.visivel(false)
+        b.textoVazio.visivel(linhas.size < 2)
+        b.textoVazio.text = "Cadastre o preço deste produto em pelo menos dois mercados (Meus produtos)."
+        b.cartaoEconomia.visivel(linhas.size >= 2)
+        if (linhas.size >= 2) {
+            val barato = linhas.first()
+            val caro = linhas.last()
+            b.economiaTitulo.text = "No ${barato.mercado.nome} ele sai mais barato"
+            b.economiaValor.text = Formato.reais(caro.total - barato.total)
+            b.economiaDetalhe.text = "a menos que no ${caro.mercado.nome} (${Formato.reais(caro.total)})"
         }
     }
 }

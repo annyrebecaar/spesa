@@ -145,6 +145,9 @@
 
             <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/trocaPromocao"
+                app:trackTint="@color/troca_trilho"
+                app:thumbTint="@color/troca_bolinha"
+                app:trackDecorationTint="@android:color/transparent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
