@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# anotações locais (caminhos e conta de teste)
+CLAUDE.md
