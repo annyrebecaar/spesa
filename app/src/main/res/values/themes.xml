@@ -216,4 +216,36 @@
         <item name="android:layout_marginStart">52dp</item>
         <item name="android:background">@color/borda</item>
     </style>
+
+    <!-- caixinhas "Saiu hoje / Na semana / No mês" em Finanças -->
+    <style name="Spesa.CaixaSaiu" parent="">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@drawable/bg_card</item>
+        <item name="android:padding">10dp</item>
+    </style>
+    <style name="Spesa.CaixaSaiu.Rotulo" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/texto_suave</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="Spesa.CaixaSaiu.Valor" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/promo</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <!-- cabeçalho das colunas da planilha -->
+    <style name="Spesa.Coluna" parent="">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/texto_suave</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.04</item>
+    </style>
 </resources>

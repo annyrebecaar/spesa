@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- caixinha redonda de "já peguei": cheia e com ✓ quando marcada, só a borda quando não -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true">
+        <layer-list>
+            <item android:width="26dp" android:height="26dp">
+                <shape android:shape="oval"><solid android:color="@color/primaria" /></shape>
+            </item>
+            <item android:width="16dp" android:height="16dp" android:gravity="center" android:drawable="@drawable/ic_check_branco" />
+        </layer-list>
+    </item>
+    <item>
+        <shape android:shape="oval">
+            <size android:width="26dp" android:height="26dp" />
+            <stroke android:width="2dp" android:color="#9DB0A5" />
+        </shape>
+    </item>
+</selector>

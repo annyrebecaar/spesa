@@ -5,18 +5,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.spesa.R
 import com.example.spesa.dados.Repositorio
 import com.example.spesa.databinding.FragmentFinancasBinding
 import com.example.spesa.model.Lancamento
+import android.widget.LinearLayout
+import com.example.spesa.databinding.ItemLinhaBinding
+import com.example.spesa.model.CategoriaGasto
+import com.example.spesa.model.Lembrete
+import com.example.spesa.model.TipoLembrete
 import com.example.spesa.ui.LancamentoFormActivity
 import com.example.spesa.util.Datas
 import com.example.spesa.util.Formato
 import com.example.spesa.util.Telas
-import com.example.spesa.util.pintar
 import com.example.spesa.util.visivel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -85,55 +88,149 @@ class FinancasFragment : Fragment() {
         b.pctRenda.visivel(entrou > 0)
         if (entrou > 0) b.pctRenda.text = "${((entrou - saiu) / entrou * 100).toInt()}% da renda"
 
-        // Barras por categoria (a maior ocupa a barra inteira)
-        b.categorias.removeAllViews()
-        val porCategoria = Repositorio.gastosPorCategoria(doPeriodo)
-        val maior = porCategoria.maxOfOrNull { it.second } ?: 0.0
-        porCategoria.forEach { (cat, valor) ->
-            val v = layoutInflater.inflate(R.layout.item_barra_categoria, b.categorias, false)
-            v.findViewById<TextView>(R.id.nome).text = cat.rotulo
-            v.findViewById<TextView>(R.id.valor).text = Formato.reais(valor)
-            v.findViewById<ProgressBar>(R.id.barra).apply {
-                progress = if (maior > 0) (valor / maior * 100).toInt() else 0
-                pintar(cat.corRes)
-            }
-            b.categorias.addView(v)
-        }
-        if (porCategoria.isEmpty()) {
-            b.categorias.addView(TextView(requireContext()).apply {
-                text = "Sem saídas neste período."
-                setTextColor(Telas.cor(requireContext(), R.color.texto_suave))
-            })
-        }
 
-        // Lista de lançamentos
-        b.lancamentos.removeAllViews()
-        b.vazio.visivel(doPeriodo.isEmpty())
-        doPeriodo.sortedByDescending { it.data }.forEach { linhaLancamento(it) }
+        mostrarQuantoSaiu()
+        mostrarAPagar()
+        mostrarCategorias(doPeriodo)
+        mostrarPlanilha(doPeriodo, entrou, saiu)
     }
 
-    private fun linhaLancamento(l: Lancamento) {
+    /** "saiu hoje / na semana / no mês": sempre conta a partir de hoje */
+    private fun mostrarQuantoSaiu() {
+        val agora = System.currentTimeMillis()
+        fun saiuEntre(inicio: Long, fim: Long) =
+            Repositorio.lancamentosEntre(inicio, fim).filter { !it.entrada }.sumOf { it.valor }
+        val hoje = Datas.inicioDoDia(agora)
+        val semana = Datas.inicioDaSemana(agora)
+        val mes = Datas.inicioDoMes(agora)
+        b.saiuHoje.text = Formato.reais(saiuEntre(hoje, Datas.somarDias(hoje, 1)))
+        b.saiuSemana.text = Formato.reais(saiuEntre(semana, Datas.somarDias(semana, 7)))
+        b.saiuMes.text = Formato.reais(saiuEntre(mes, Datas.somarMeses(mes, 1)))
+    }
+
+    /** contas dos próximos 30 dias (lembretes de "Pagar" que ainda não foram pagos) */
+    private fun mostrarAPagar() {
         val ctx = requireContext()
-        val linha = Telas.linha(b.lancamentos)
-        linha.caixaIcone.visivel(true)
-        linha.caixaIcone.setBackgroundResource(if (l.entrada) R.drawable.bg_verde_claro else R.drawable.bg_vermelho_claro)
-        linha.icone.setImageResource(if (l.entrada) R.drawable.ic_arrow_down else R.drawable.ic_arrow_up)
-        linha.icone.setColorFilter(Telas.cor(ctx, if (l.entrada) R.color.entrada else R.color.promo))
-        linha.titulo.text = l.descricao.ifBlank { l.categoria.rotulo }
-        linha.subtitulo.text = "${Datas.diaMes(l.data)} · ${l.categoria.rotulo}"
-        linha.valor.text = (if (l.entrada) "+" else "−") + Formato.reais(l.valor)
-        linha.valor.setTextColor(Telas.cor(ctx, if (l.entrada) R.color.entrada else R.color.promo))
-        linha.root.setOnClickListener {
-            startActivity(Intent(ctx, LancamentoFormActivity::class.java).putExtra(LancamentoFormActivity.EXTRA_ID, l.id))
+        val hoje = Datas.inicioDoDia(System.currentTimeMillis())
+        val limite = Datas.somarDias(hoje, 30)
+        // conta atrasada também aparece, pra não esquecer
+        val contas = Repositorio.lembretes
+            .filter { it.tipo == TipoLembrete.PAGAR && !it.feito && it.data < limite }
+            .sortedBy { it.data }
+
+        b.aPagar.removeAllViews()
+        b.aPagar.visivel(contas.isNotEmpty())
+        b.aPagarVazio.visivel(contas.isEmpty())
+        b.totalAPagar.text = if (contas.isEmpty()) "" else "próximos 30 dias · ${Formato.reais(contas.sumOf { it.valor })}"
+
+        contas.forEach { conta ->
+            val l = ItemLinhaBinding.inflate(layoutInflater, b.aPagar, true)
+            l.root.strokeWidth = 0
+            l.root.radius = 0f
+            (l.root.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = 0
+            l.caixaIcone.visivel(true)
+            l.caixaIcone.setBackgroundResource(R.drawable.bg_vermelho_claro)
+            l.icone.setImageResource(R.drawable.ic_coin)
+            l.icone.setColorFilter(Telas.cor(ctx, R.color.promo))
+            l.titulo.text = conta.texto
+            val atrasada = conta.data < hoje
+            l.subtitulo.text = if (atrasada) "atrasada! era ${Datas.diaMes(conta.data)}" else "vence ${Datas.diaPorExtenso(conta.data).lowercase()}"
+            if (atrasada || conta.data < Datas.somarDias(hoje, 3)) l.subtitulo.setTextColor(Telas.cor(ctx, R.color.promo))
+            l.valor.text = Formato.reais(conta.valor)
+            l.extra.visivel(true)
+            l.extra.text = "Paguei ✓"
+            // tocar: marca como paga e lança a saída nas finanças
+            l.root.setOnClickListener { pagar(conta) }
         }
-        linha.root.setOnLongClickListener {
-            MaterialAlertDialogBuilder(ctx).setTitle("Excluir lançamento?")
-                .setMessage("${l.descricao} · ${Formato.reais(l.valor)}")
-                .setNegativeButton(R.string.cancelar, null)
-                .setPositiveButton(R.string.excluir) { _, _ -> Repositorio.removerLancamento(l.id); atualizar() }
-                .show()
-            true
+    }
+
+    private fun pagar(conta: Lembrete) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Pagou ${conta.texto}?")
+            .setMessage("Vamos lançar ${Formato.reais(conta.valor)} como saída em Contas e tirar de A pagar.")
+            .setNegativeButton(R.string.cancelar, null)
+            .setPositiveButton("Paguei") { _, _ ->
+                conta.feito = true
+                Repositorio.salvarLembrete(conta)
+                if (conta.valor > 0) {
+                    Repositorio.salvarLancamento(Lancamento(entrada = false, valor = conta.valor,
+                        descricao = conta.texto, categoria = CategoriaGasto.CONTAS))
+                }
+                Repositorio.registrar("Você pagou ${conta.texto}", "saida")
+                atualizar()
+            }.show()
+    }
+
+    /** uma barra só, dividida por categoria, e embaixo a legenda com valor e % */
+    private fun mostrarCategorias(doPeriodo: List<Lancamento>) {
+        val ctx = requireContext()
+        b.barraEmpilhada.removeAllViews()
+        b.categorias.removeAllViews()
+        val porCategoria = Repositorio.gastosPorCategoria(doPeriodo)
+        val total = porCategoria.sumOf { it.second }
+        porCategoria.forEach { (cat, valor) ->
+            // cada pedaço tem o tamanho (peso) do valor gasto
+            b.barraEmpilhada.addView(View(ctx).apply { setBackgroundColor(Telas.cor(ctx, cat.corRes)) },
+                LinearLayout.LayoutParams(0, -1, valor.toFloat()))
+            val linha = layoutInflater.inflate(R.layout.item_legenda, b.categorias, false)
+            linha.findViewById<View>(R.id.cor).backgroundTintList = android.content.res.ColorStateList.valueOf(Telas.cor(ctx, cat.corRes))
+            linha.findViewById<TextView>(R.id.nome).text = cat.rotulo
+            linha.findViewById<TextView>(R.id.pct).text = "${if (total > 0) (valor / total * 100).toInt() else 0}%"
+            linha.findViewById<TextView>(R.id.valor).text = Formato.reais(valor)
+            b.categorias.addView(linha)
         }
+        b.barraEmpilhada.visivel(porCategoria.isNotEmpty())
+        if (porCategoria.isEmpty()) {
+            b.categorias.addView(TextView(ctx).apply {
+                text = "Sem saídas neste período."
+                setTextColor(Telas.cor(ctx, R.color.texto_suave))
+            })
+        }
+    }
+
+    /** a planilha: uma linha por lançamento, com total e saldo no fim */
+    private fun mostrarPlanilha(doPeriodo: List<Lancamento>, entrou: Double, saiu: Double) {
+        val ctx = requireContext()
+        b.tituloPlanilha.text = when (escala) { Escala.DIA -> "Planilha do dia"; Escala.SEMANA -> "Planilha da semana"; else -> "Planilha do mês" }
+        b.rotuloSaldo.text = when (escala) { Escala.DIA -> "Saldo do dia"; Escala.SEMANA -> "Saldo da semana"; else -> "Saldo do mês" }
+        b.lancamentos.removeAllViews()
+        b.vazio.visivel(doPeriodo.isEmpty())
+        doPeriodo.sortedByDescending { it.data }.forEach { l ->
+            val v = layoutInflater.inflate(R.layout.item_planilha, b.lancamentos, false)
+            v.findViewById<TextView>(R.id.dia).text = Datas.diaBarraMes(l.data)
+            v.findViewById<TextView>(R.id.descricao).text = l.descricao.ifBlank { l.categoria.rotulo }
+            v.findViewById<TextView>(R.id.categoria).text = l.categoria.rotulo
+            v.findViewById<TextView>(R.id.entrou).text = if (l.entrada) Formato.numero(l.valor) else ""
+            v.findViewById<TextView>(R.id.saiu).text = if (!l.entrada) Formato.numero(l.valor) else ""
+            v.setOnClickListener {
+                startActivity(Intent(ctx, LancamentoFormActivity::class.java).putExtra(LancamentoFormActivity.EXTRA_ID, l.id))
+            }
+            v.setOnLongClickListener {
+                MaterialAlertDialogBuilder(ctx).setTitle("Excluir lançamento?")
+                    .setMessage("${l.descricao} · ${Formato.reais(l.valor)}")
+                    .setNegativeButton(R.string.cancelar, null)
+                    .setPositiveButton(R.string.excluir) { _, _ -> Repositorio.removerLancamento(l.id); atualizar() }
+                    .show()
+                true
+            }
+            b.lancamentos.addView(v)
+        }
+        b.totalEntrou.text = Formato.numero(entrou)
+        b.totalSaiu.text = Formato.numero(saiu)
+        b.saldo.text = Formato.reais(entrou - saiu)
+        b.exportar.setOnClickListener { exportar(doPeriodo) }
+    }
+
+    /** manda a planilha como texto separado por ";" (dá pra colar no Excel ou no Planilhas) */
+    private fun exportar(doPeriodo: List<Lancamento>) {
+        val csv = buildString {
+            appendLine("Data;Descrição;Categoria;Entrou;Saiu")
+            doPeriodo.sortedBy { it.data }.forEach { l ->
+                appendLine("${Datas.curta(l.data)};${l.descricao};${l.categoria.rotulo};" +
+                    "${if (l.entrada) Formato.numero(l.valor) else ""};${if (!l.entrada) Formato.numero(l.valor) else ""}")
+            }
+        }
+        startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, csv), "Exportar planilha"))
     }
 
     override fun onDestroyView() {

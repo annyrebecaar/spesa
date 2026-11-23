@@ -13,6 +13,7 @@ import com.example.spesa.dados.Repositorio
 import com.example.spesa.databinding.ActivityListaBinding
 import com.example.spesa.model.ItemLista
 import com.example.spesa.model.ListaDeCompras
+import com.example.spesa.util.Datas
 import com.example.spesa.util.Formato
 import com.example.spesa.util.pintar
 import com.example.spesa.util.visivel
@@ -75,6 +76,7 @@ class ListaActivity : AppCompatActivity() {
 
     private fun atualizar() {
         b.toolbar.title = lista.titulo
+        mostrarBarraDatas()
         adapter.atualizar(lista.itens)
         b.textoVazio.visivel(lista.itens.isEmpty())
 
@@ -100,6 +102,22 @@ class ListaActivity : AppCompatActivity() {
                 else -> R.color.amarelo
             })
         }
+    }
+
+    /** barra colorida: dia em que a lista foi criada, dia marcado pra compra e a pasta */
+    private fun mostrarBarraDatas() {
+        val pasta = Repositorio.pasta(lista.pastaId)
+        val cor = pasta?.cor?.corRes ?: R.color.pasta_salvia
+        b.barraDatas.backgroundTintList = android.content.res.ColorStateList.valueOf(Telas.cor(this, cor))
+        // texto escuro em cima do amarelo, branco nas outras cores
+        val corTexto = Telas.cor(this, if (pasta?.cor?.textoClaro == false) R.color.texto else R.color.white)
+        listOf(b.dataCriada, b.dataCompra, b.nomePasta).forEach { it.setTextColor(corTexto) }
+
+        b.dataCriada.text = Datas.diaSemanaData(lista.criadaEm)
+        val compra = Repositorio.dataDeCompra(lista.id)
+        b.dataCompra.visivel(compra != null)
+        compra?.let { b.dataCompra.text = "Compra: ${Datas.diaSemanaCurtoDia(it)}" }
+        b.nomePasta.text = pasta?.nome ?: "Sem pasta"
     }
 
     private fun abrirFormulario(itemId: Long?) {

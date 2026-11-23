@@ -124,8 +124,8 @@ object Repositorio {
 
     fun estaLogado(): Boolean = usuario != null && prefs.getBoolean(CHAVE_LOGADO, false)
 
-    fun criarConta(nome: String, email: String, senha: String, uso: String) {
-        usuario = Usuario(nome, email.trim().lowercase(), hash(senha), uso)
+    fun criarConta(nome: String, email: String, senha: String) {
+        usuario = Usuario(nome, email.trim().lowercase(), hash(senha))
         prefs.edit().putBoolean(CHAVE_LOGADO, true).apply()
         salvar()
     }
@@ -206,6 +206,10 @@ object Repositorio {
         lembretes.removeAll { it.id == id }
         salvar()
     }
+
+    /** dia do próximo lembrete de "Comprar" ligado a essa lista (ou null se não tem) */
+    fun dataDeCompra(listaId: Long): Long? =
+        lembretes.filter { it.listaId == listaId && !it.feito }.minOfOrNull { it.data }
 
     /** Próximos compromissos ainda não feitos, a partir de agora (começo do dia). */
     fun proximosLembretes(): List<Lembrete> {

@@ -17,6 +17,21 @@
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_back" />
 
+        <!-- barra com as datas, na cor da pasta da lista -->
+        <LinearLayout android:id="@+id/barraDatas" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginStart="16dp" android:layout_marginEnd="16dp" android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_barra_datas" android:gravity="center_vertical"
+            android:paddingStart="14dp" android:paddingTop="9dp" android:paddingEnd="14dp" android:paddingBottom="9dp">
+            <TextView android:id="@+id/dataCriada" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:textColor="@color/white" android:textSize="13sp" android:textStyle="bold" />
+            <TextView android:id="@+id/dataCompra" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:background="@drawable/bg_chip_escuro" android:paddingStart="7dp" android:paddingEnd="7dp"
+                android:paddingTop="2dp" android:paddingBottom="2dp" android:textColor="@color/white"
+                android:textSize="12sp" android:textStyle="bold" android:visibility="gone" />
+            <TextView android:id="@+id/nomePasta" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_marginStart="8dp" android:textColor="@color/white" android:alpha="0.8" android:textSize="12sp" />
+        </LinearLayout>
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -25,11 +40,13 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/listaItens"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="88dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/bg_card_cantos"
+                android:clipToOutline="true"
+                android:padding="1dp" />
 
             <TextView
                 android:id="@+id/textoVazio"

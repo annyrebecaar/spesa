@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- cartão branco onde ficam as linhas dos itens -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/superficie" />
+    <stroke android:width="1dp" android:color="@color/borda" />
+    <corners android:radius="20dp" />
+</shape>

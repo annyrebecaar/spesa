@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- a cor de verdade vem da pasta (backgroundTint no código) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/primaria" />
+    <corners android:radius="14dp" />
+</shape>

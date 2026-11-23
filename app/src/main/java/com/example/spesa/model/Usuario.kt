@@ -8,7 +8,6 @@ data class Usuario(
     var nome: String = "",
     var email: String = "",
     var senhaHash: String = "",
-    var uso: String = "Família",       // Família, República ou Só eu
 )
 
 /** Uma linha de "Atividade recente" na tela de Início. */

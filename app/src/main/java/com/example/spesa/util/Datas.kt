@@ -58,6 +58,12 @@ object Datas {
     fun curta(millis: Long) = fmt("d MMM yyyy", millis).replace(".", "")
     /** "17 nov" */
     fun diaMes(millis: Long) = fmt("dd MMM", millis).replace(".", "")
+    /** "Qua, 18 nov 2026" */
+    fun diaSemanaData(millis: Long) = (fmt("EEE", millis).replace(".", "").replaceFirstChar { it.uppercase() }) + ", " + curta(millis)
+    /** "qui 19" */
+    fun diaSemanaCurtoDia(millis: Long) = fmt("EEE d", millis).replace(".", "")
+    /** "17/11" */
+    fun diaBarraMes(millis: Long) = fmt("dd/MM", millis)
     /** "09:00" */
     fun hora(millis: Long) = fmt("HH:mm", millis)
 

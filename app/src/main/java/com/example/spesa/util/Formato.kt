@@ -14,6 +14,9 @@ object Formato {
     /** 12.5 -> "R$ 12,50" */
     fun reais(valor: Double): String = moeda.format(valor)
 
+    /** 1234.5 -> "1.234,50" (sem o R$, para a planilha) */
+    fun numero(valor: Double): String = reais(valor).replace("R$", "").trim()
+
     /** Lê o que o usuário digitou aceitando vírgula ou ponto: "12,50" -> 12.5 */
     fun lerReais(texto: String): Double {
         var t = texto.replace("R$", "").trim()
