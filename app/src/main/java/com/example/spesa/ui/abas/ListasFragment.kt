@@ -39,6 +39,8 @@ class ListasFragment : Fragment() {
             if (b.caixaBusca.visibility != View.VISIBLE) b.campoBusca.setText("")
         }
         b.campoBusca.doAfterTextChanged { atualizar() }
+        b.irProdutos.setOnClickListener { startActivity(android.content.Intent(requireContext(), com.example.spesa.ui.ProdutosActivity::class.java)) }
+        b.irMercados.setOnClickListener { startActivity(android.content.Intent(requireContext(), com.example.spesa.ui.MercadosActivity::class.java)) }
         b.novaPasta.setOnClickListener { Telas.dialogoPasta(requireActivity(), null) { atualizar() } }
         b.botaoNovaLista.setOnClickListener { novaLista() }
         b.importar.setOnClickListener { Telas.importar(requireActivity()) { atualizar() } }

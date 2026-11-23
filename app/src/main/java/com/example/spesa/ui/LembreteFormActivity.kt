@@ -42,7 +42,7 @@ class LembreteFormActivity : AppCompatActivity() {
         if (existente != null) {
             b.tituloTela.text = "Editar lembrete"
             b.campoTexto.setText(existente.texto)
-            if (existente.valor > 0) b.campoValor.setText(existente.valor.toString().replace(".", ","))
+            if (existente.valor > 0) b.campoValor.setText(Formato.numero(existente.valor))
             quando.timeInMillis = existente.data
             listaId = existente.listaId
             b.tipo.check(when (existente.tipo) { TipoLembrete.PAGAR -> R.id.tipoPagar; TipoLembrete.FAZER -> R.id.tipoFazer; else -> R.id.tipoComprar })

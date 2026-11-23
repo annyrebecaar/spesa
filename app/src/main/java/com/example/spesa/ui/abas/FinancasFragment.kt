@@ -150,13 +150,7 @@ class FinancasFragment : Fragment() {
             .setMessage("Vamos lançar ${Formato.reais(conta.valor)} como saída em Contas e tirar de A pagar.")
             .setNegativeButton(R.string.cancelar, null)
             .setPositiveButton("Paguei") { _, _ ->
-                conta.feito = true
-                Repositorio.salvarLembrete(conta)
-                if (conta.valor > 0) {
-                    Repositorio.salvarLancamento(Lancamento(entrada = false, valor = conta.valor,
-                        descricao = conta.texto, categoria = CategoriaGasto.CONTAS))
-                }
-                Repositorio.registrar("Você pagou ${conta.texto}", "saida")
+                Repositorio.pagarConta(conta)
                 atualizar()
             }.show()
     }

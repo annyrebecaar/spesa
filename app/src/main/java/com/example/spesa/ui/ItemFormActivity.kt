@@ -101,7 +101,7 @@ class ItemFormActivity : AppCompatActivity() {
             val produto = Repositorio.produtoPorNome(b.campoNome.text.toString())
             val conhecido = mercadoEscolhido?.let { produto?.precoEm(it.id) }
             if (conhecido != null) {
-                b.campoPreco.setText(conhecido.preco.toString().replace(".", ","))
+                b.campoPreco.setText(Formato.numero(conhecido.preco))
                 b.trocaPromocao.isChecked = conhecido.promocao
             }
         }
@@ -122,7 +122,7 @@ class ItemFormActivity : AppCompatActivity() {
         b.campoNome.setText(item.nome)
         quantidade = item.quantidade
         b.textoQuantidade.text = quantidade.toString()
-        if (item.precoUnitario > 0) b.campoPreco.setText(item.precoUnitario.toString().replace(".", ","))
+        if (item.precoUnitario > 0) b.campoPreco.setText(Formato.numero(item.precoUnitario))
         b.trocaPromocao.isChecked = item.promocao
         categoriaEscolhida = item.categoria
         b.campoCategoria.setText(item.categoria.rotulo, false)
@@ -137,7 +137,7 @@ class ItemFormActivity : AppCompatActivity() {
         b.campoCategoria.setText(produto.categoria.rotulo, false)
         val melhor = produto.menorPreco()
         if (melhor != null) {
-            b.campoPreco.setText(melhor.preco.toString().replace(".", ","))
+            b.campoPreco.setText(Formato.numero(melhor.preco))
             b.trocaPromocao.isChecked = melhor.promocao
             mercadoEscolhido = Repositorio.mercado(melhor.mercadoId)
             mercadoEscolhido?.let { b.campoMercado.setText(it.nome, false) }

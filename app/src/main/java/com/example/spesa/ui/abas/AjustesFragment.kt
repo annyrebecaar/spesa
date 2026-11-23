@@ -14,8 +14,6 @@ import com.example.spesa.R
 import com.example.spesa.dados.Repositorio
 import com.example.spesa.databinding.FragmentAjustesBinding
 import com.example.spesa.ui.LoginActivity
-import com.example.spesa.ui.MercadosActivity
-import com.example.spesa.ui.ProdutosActivity
 import com.example.spesa.util.Lembretes
 import com.example.spesa.util.Telas
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -51,8 +49,6 @@ class AjustesFragment : Fragment() {
         }
 
         b.editarPerfil.setOnClickListener { editarPerfil() }
-        b.irMercados.setOnClickListener { startActivity(Intent(requireContext(), MercadosActivity::class.java)) }
-        b.irDespensa.setOnClickListener { startActivity(Intent(requireContext(), ProdutosActivity::class.java)) }
         b.gerenciarPastas.setOnClickListener { gerenciarPastas() }
         b.senha.setOnClickListener { trocarSenha() }
         b.backup.setOnClickListener { exportar() }

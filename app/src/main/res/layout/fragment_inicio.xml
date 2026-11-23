@@ -28,9 +28,13 @@
             android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold" />
         <TextView android:id="@+id/hoje" android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/Spesa.Suave" android:textSize="14sp" />
 
+        <!-- contas vencidas ou vencendo hoje: aparece só quando tem -->
+        <LinearLayout android:id="@+id/avisos" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="14dp" android:orientation="vertical" />
+
         <!-- finanças do mês -->
         <LinearLayout android:id="@+id/cartaoSaldo" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" android:background="@drawable/bg_saldo" android:orientation="vertical"
+            android:layout_marginTop="4dp" android:background="@drawable/bg_saldo" android:orientation="vertical"
             android:padding="18dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
                 <TextView android:id="@+id/rotuloSaldo" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"

@@ -65,6 +65,11 @@
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        app:backgroundTint="@color/primaria"
+        app:iconTint="@color/white"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textAllCaps="false"
         android:id="@+id/botaoNovoProduto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

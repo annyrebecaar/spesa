@@ -87,7 +87,7 @@ class ProdutoFormActivity : AppCompatActivity() {
         campos.campoMercado.isEnabled = preco == null   // ao editar, o mercado não muda
 
         if (preco != null) {
-            campos.campoPreco.setText(preco.preco.toString().replace(".", ","))
+            campos.campoPreco.setText(Formato.numero(preco.preco))
             campos.campoCorredor.setText(preco.corredor)
             campos.trocaPromocao.isChecked = preco.promocao
         }

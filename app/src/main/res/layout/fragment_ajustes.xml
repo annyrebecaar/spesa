@@ -30,12 +30,6 @@
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
             android:background="@drawable/bg_card" android:orientation="vertical">
             <LinearLayout style="@style/Spesa.ItemAjuste">
-                <ImageView style="@style/Spesa.IconeAjuste" android:src="@drawable/ic_coin" />
-                <TextView style="@style/Spesa.TextoAjuste" android:text="Moeda" />
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Real (R$)" style="@style/Spesa.Suave" android:textSize="14sp" />
-            </LinearLayout>
-            <View style="@style/Spesa.Divisor" />
-            <LinearLayout style="@style/Spesa.ItemAjuste">
                 <ImageView style="@style/Spesa.IconeAjuste" android:src="@drawable/ic_bell" />
                 <TextView style="@style/Spesa.TextoAjuste" android:text="Lembretes de compras e contas" />
                 <com.google.android.material.materialswitch.MaterialSwitch android:id="@+id/lembretes"
@@ -56,21 +50,9 @@
             </LinearLayout>
         </LinearLayout>
 
-        <TextView style="@style/Spesa.Rotulo" android:text="COMPRAS" />
+        <TextView style="@style/Spesa.Rotulo" android:text="LISTAS" />
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
             android:background="@drawable/bg_card" android:orientation="vertical">
-            <LinearLayout android:id="@+id/irMercados" style="@style/Spesa.ItemAjuste">
-                <ImageView style="@style/Spesa.IconeAjuste" android:src="@drawable/ic_store" />
-                <TextView style="@style/Spesa.TextoAjuste" android:text="Mercados" />
-                <ImageView style="@style/Spesa.SetaAjuste" />
-            </LinearLayout>
-            <View style="@style/Spesa.Divisor" />
-            <LinearLayout android:id="@+id/irDespensa" style="@style/Spesa.ItemAjuste">
-                <ImageView style="@style/Spesa.IconeAjuste" android:src="@drawable/ic_basket" />
-                <TextView style="@style/Spesa.TextoAjuste" android:text="Despensa (produtos e preços)" />
-                <ImageView style="@style/Spesa.SetaAjuste" />
-            </LinearLayout>
-            <View style="@style/Spesa.Divisor" />
             <LinearLayout android:id="@+id/gerenciarPastas" style="@style/Spesa.ItemAjuste">
                 <ImageView style="@style/Spesa.IconeAjuste" android:src="@drawable/ic_folder" />
                 <TextView style="@style/Spesa.TextoAjuste" android:text="Gerenciar pastas" />

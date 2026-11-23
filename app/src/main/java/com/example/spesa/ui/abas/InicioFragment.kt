@@ -52,9 +52,42 @@ class InicioFragment : Fragment() {
         b.avatar.text = nome.take(1).uppercase()
         b.ola.text = "Olá, ${nome.substringBefore(" ")}!"
         b.hoje.text = Datas.diaPorExtenso(agora)
+        mostrarAvisos()
         mostrarFinancas(agora)
         mostrarLista()
         mostrarAgenda()
+    }
+
+    /** faixa vermelha pra cada conta vencida ou que vence hoje: toque pra marcar como paga */
+    private fun mostrarAvisos() {
+        val ctx = requireContext()
+        b.avisos.removeAllViews()
+        val hoje = Datas.inicioDoDia(System.currentTimeMillis())
+        Repositorio.contasAtrasadas().forEach { conta ->
+            val l = Telas.linha(b.avisos)
+            l.root.setCardBackgroundColor(Telas.cor(ctx, R.color.promo_clara))
+            l.root.strokeColor = Telas.cor(ctx, R.color.promo)
+            l.caixaIcone.visivel(true)
+            l.caixaIcone.setBackgroundResource(R.drawable.bg_avatar)
+            l.caixaIcone.backgroundTintList = ColorStateList.valueOf(Telas.cor(ctx, R.color.promo))
+            l.icone.setImageResource(R.drawable.ic_bell)
+            l.icone.setColorFilter(Telas.cor(ctx, R.color.white))
+            val dias = ((hoje - Datas.inicioDoDia(conta.data)) / 86_400_000L).toInt()
+            l.titulo.text = when (dias) {
+                0 -> "${conta.texto} vence hoje"
+                1 -> "${conta.texto} venceu ontem"
+                else -> "${conta.texto} venceu há $dias dias"
+            }
+            l.subtitulo.text = "Toque quando pagar"
+            l.valor.text = Formato.reais(conta.valor)
+            l.valor.setTextColor(Telas.cor(ctx, R.color.promo))
+            l.root.setOnClickListener {
+                Telas.confirmar(requireActivity(), "Pagou ${conta.texto}?",
+                    "Vamos lançar ${Formato.reais(conta.valor)} como saída e já marcar a do próximo mês.", "Paguei") {
+                    Repositorio.pagarConta(conta); atualizar()
+                }
+            }
+        }
     }
 
     /** sobrou no mês + barrinha de quanto do que entrou já foi gasto */

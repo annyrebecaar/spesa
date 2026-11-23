@@ -6,7 +6,7 @@
     <string name="minhas_listas">Minhas listas</string>
     <string name="ativas">Ativas</string>
     <string name="historico">Histórico</string>
-    <string name="despensa">Despensa</string>
+    <string name="despensa">Meus produtos</string>
     <string name="mercados">Mercados</string>
     <string name="nova_lista">Nova lista</string>
     <string name="sem_listas">Nenhuma lista por aqui.\nToque em + para criar a primeira.</string>
@@ -28,7 +28,7 @@
     <string name="no_carrinho">No carrinho</string>
     <string name="falta">Falta</string>
     <string name="total">Total</string>
-    <string name="da_despensa">Da despensa</string>
+    <string name="da_despensa">Adicionar dos meus produtos</string>
     <string name="comparar_mercados">Comparar mercados</string>
     <string name="promo">PROMO</string>
 
@@ -58,7 +58,7 @@
     <string name="editar_produto">Editar produto</string>
     <string name="marca">Marca</string>
     <string name="descricao">Descrição</string>
-    <string name="favorito">Favorito (aparece em \"Da despensa\")</string>
+    <string name="favorito">Favorito (aparece em \"Meus produtos\" na lista)</string>
     <string name="onde_encontrar">Onde encontrar</string>
     <string name="adicionar_mercado">Adicionar mercado</string>
     <string name="corredor">Onde fica na loja (ex.: corredor 5)</string>

@@ -142,7 +142,11 @@ class AgendaFragment : Fragment() {
             MaterialAlertDialogBuilder(ctx).setTitle(lem.texto)
                 .setItems(arrayOf(if (lem.feito) "Marcar como não feito" else "Marcar como feito", "Editar", "Excluir")) { _, q ->
                     when (q) {
-                        0 -> { lem.feito = !lem.feito; Repositorio.salvarLembrete(lem); atualizar() }
+                        0 -> {
+                            if (!lem.feito && lem.tipo == TipoLembrete.PAGAR) Repositorio.pagarConta(lem)
+                            else { lem.feito = !lem.feito; Repositorio.salvarLembrete(lem); Repositorio.gerarRepeticoes() }
+                            atualizar()
+                        }
                         1 -> startActivity(Intent(ctx, LembreteFormActivity::class.java).putExtra(LembreteFormActivity.EXTRA_ID, lem.id))
                         2 -> { Repositorio.removerLembrete(lem.id); atualizar() }
                     }

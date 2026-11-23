@@ -70,6 +70,7 @@ object Repositorio {
         lembretes.clear(); lembretes.addAll(ler(CHAVE_LEMBRETES))
         atividades.clear(); atividades.addAll(ler(CHAVE_ATIVIDADES))
         usuario = prefs.getString(CHAVE_USUARIO, null)?.let { gson.fromJson(it, Usuario::class.java) }
+        gerarRepeticoes()
 
         // Na primeira vez, já cria as 4 pastas do protótipo para o app não começar vazio.
         if (!prefs.getBoolean(CHAVE_PRIMEIRA_VEZ, false)) {
@@ -204,6 +205,62 @@ object Repositorio {
 
     fun removerLembrete(id: Long) {
         lembretes.removeAll { it.id == id }
+        salvar()
+    }
+
+    // ---------- Repetições ----------
+
+    /** a próxima data de algo que repete (semana que vem ou mês que vem) */
+    private fun proxima(data: Long, rep: com.example.spesa.model.Repeticao): Long = when (rep) {
+        com.example.spesa.model.Repeticao.SEMANAL -> com.example.spesa.util.Datas.somarDias(data, 7)
+        else -> com.example.spesa.util.Datas.somarMeses(data, 1)
+    }
+
+    /**
+     * cria sozinho o que se repete: salário e aluguel do mês novo, a conta do mês que vem...
+     * pega o último de cada "grupo" (mesma descrição, valor e tipo) e copia pra frente até hoje.
+     */
+    fun gerarRepeticoes() {
+        val agora = System.currentTimeMillis()
+        var mudou = false
+        lancamentos.filter { it.repeticao != com.example.spesa.model.Repeticao.NAO }
+            .groupBy { Triple(it.descricao, it.entrada, it.valor) }
+            .forEach { (_, grupo) ->
+                var ultimo = grupo.maxBy { it.data }
+                while (proxima(ultimo.data, ultimo.repeticao) <= agora) {
+                    val novo = ultimo.copy(id = System.nanoTime(), data = proxima(ultimo.data, ultimo.repeticao))
+                    lancamentos.add(novo); ultimo = novo; mudou = true
+                }
+            }
+        // conta paga que repete: cria a do próximo mês (se ainda não existe)
+        lembretes.filter { it.feito && it.repeticao != com.example.spesa.model.Repeticao.NAO }.forEach { lem ->
+            val data = proxima(lem.data, lem.repeticao)
+            val jaTem = lembretes.any { it.texto == lem.texto && it.tipo == lem.tipo && it.data >= data }
+            if (!jaTem) { lembretes.add(lem.copy(id = System.nanoTime(), data = data, feito = false)); mudou = true }
+        }
+        if (mudou) {
+            lancamentos.sortByDescending { it.data }
+            lembretes.sortBy { it.data }
+            salvar()
+        }
+    }
+
+    /** contas de "Pagar" que já venceram (ou vencem hoje) e não foram pagas */
+    fun contasAtrasadas(): List<com.example.spesa.model.Lembrete> {
+        val amanha = com.example.spesa.util.Datas.somarDias(com.example.spesa.util.Datas.inicioDoDia(System.currentTimeMillis()), 1)
+        return lembretes.filter { it.tipo == com.example.spesa.model.TipoLembrete.PAGAR && !it.feito && it.data < amanha }
+    }
+
+    /** marca a conta como paga, lança a saída nas finanças e já prepara a do próximo mês */
+    fun pagarConta(conta: com.example.spesa.model.Lembrete) {
+        conta.feito = true
+        if (conta.valor > 0) {
+            lancamentos.add(Lancamento(entrada = false, valor = conta.valor, descricao = conta.texto,
+                categoria = CategoriaGasto.CONTAS))
+            lancamentos.sortByDescending { it.data }
+        }
+        registrar("Você pagou ${conta.texto}", "saida")
+        gerarRepeticoes()
         salvar()
     }
 

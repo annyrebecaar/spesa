@@ -59,8 +59,8 @@ class ComparativoActivity : AppCompatActivity() {
 
     /** tabela com os itens que mais mudam de preço de um mercado pro outro */
     private fun mostrarDiferencas(lista: ListaDeCompras, barato: Mercado, caro: Mercado) {
-        b.colunaA.text = barato.nome.take(12).uppercase()
-        b.colunaB.text = caro.nome.take(12).uppercase()
+        b.colunaA.text = "MAIS BARATO"
+        b.colunaB.text = "MAIS CARO"
         val linhas = lista.itens.mapNotNull { item ->
             val produto = item.produtoId?.let { Repositorio.produto(it) } ?: return@mapNotNull null
             val pa = produto.precoEm(barato.id)?.preco ?: return@mapNotNull null

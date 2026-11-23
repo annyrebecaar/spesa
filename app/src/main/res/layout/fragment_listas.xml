@@ -34,6 +34,16 @@
                     android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Histórico" />
             </com.google.android.material.button.MaterialButtonToggleGroup>
 
+            <!-- atalhos: produtos que você já comprou (com preços) e mercados -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+                <com.google.android.material.button.MaterialButton android:id="@+id/irProdutos" style="@style/Spesa.BotaoBorda"
+                    android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="6dp"
+                    android:minHeight="44dp" android:text="Meus produtos" app:icon="@drawable/ic_basket" app:iconTint="@color/primaria" app:iconGravity="textStart" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/irMercados" style="@style/Spesa.BotaoBorda"
+                    android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="6dp"
+                    android:minHeight="44dp" android:text="Mercados" app:icon="@drawable/ic_store" app:iconTint="@color/primaria" app:iconGravity="textStart" />
+            </LinearLayout>
+
             <!-- Conteúdo da aba Ativas -->
             <LinearLayout android:id="@+id/blocoAtivas" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"

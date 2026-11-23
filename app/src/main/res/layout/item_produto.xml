@@ -58,9 +58,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
-                    android:background="@drawable/bg_promo"
+                    android:background="@drawable/bg_promo_amarelo"
                     android:text="@string/promo"
-                    android:textColor="@color/promo_texto"
+                    android:textColor="@color/texto"
                     android:visibility="gone" />
             </LinearLayout>
         </LinearLayout>
