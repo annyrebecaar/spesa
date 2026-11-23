@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- trilho da chave: verde quando ligada, cinza escuro quando desligada (antes sumia no fundo amarelo) -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/primaria" android:state_checked="true" />
+    <item android:color="#8C9590" />
+</selector>
