@@ -13,4 +13,12 @@
     <color name="promo_clara">#3A2421</color>
     <color name="entrada_clara">#1F3428</color>
     <color name="amarelo_claro">#3A3220</color>
+    <!-- no escuro o verde principal fica mais claro, pra dar pra ler texto verde no fundo escuro -->
+    <color name="primaria">#4E9C77</color>
+    <color name="primaria_media">#3F8A66</color>
+    <color name="sobre_primaria_suave">#E3F1E8</color>
+    <color name="entrada">#6CC495</color>
+    <color name="promo">#E2705F</color>
+    <color name="pasta_verde">#3F8A66</color>
+    <color name="fin_moradia">#7FB89B</color>
 </resources>

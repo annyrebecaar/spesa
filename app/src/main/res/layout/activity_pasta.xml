@@ -12,8 +12,8 @@
         <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
             android:text="Minhas listas" android:textColor="@color/texto_suave" android:textSize="15sp" />
         <ImageButton android:id="@+id/editar" android:layout_width="48dp" android:layout_height="48dp"
-            android:background="?attr/selectableItemBackgroundBorderless" android:src="@drawable/ic_sliders"
-            app:tint="@color/texto" android:contentDescription="Editar pasta" />
+            android:background="?attr/selectableItemBackgroundBorderless" android:src="@drawable/ic_more"
+            app:tint="@color/texto" android:contentDescription="Opções da pasta" />
     </LinearLayout>
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"

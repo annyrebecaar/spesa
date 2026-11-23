@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- janela de compartilhar: quem participa + enviar o código -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="vertical" android:paddingStart="20dp" android:paddingTop="8dp"
+    android:paddingEnd="20dp" android:paddingBottom="24dp">
+    <View android:layout_width="44dp" android:layout_height="5dp" android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="14dp" android:background="@drawable/bg_alca" />
+    <TextView android:id="@+id/titulo" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold" android:textColor="@color/texto" android:textSize="24sp" />
+    <TextView android:id="@+id/subtitulo" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_marginBottom="14dp" android:textColor="@color/texto_suave" android:textSize="14sp" />
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
+        <com.google.android.material.textfield.TextInputLayout style="@style/Spesa.Campo"
+            android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:hint="Nome ou e-mail">
+            <com.google.android.material.textfield.TextInputEditText android:id="@+id/campoPessoa"
+                android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="textEmailAddress" android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.button.MaterialButton android:id="@+id/adicionar" style="@style/Spesa.Botao"
+            android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:text="Adicionar" />
+    </LinearLayout>
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="14dp"
+        android:layout_marginBottom="6dp" android:text="Quem participa" android:textColor="@color/texto" android:textStyle="bold" />
+    <LinearLayout android:id="@+id/pessoas" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" />
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp"
+        android:background="@drawable/bg_creme" android:padding="12dp">
+        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_share" app:tint="@color/primaria" android:contentDescription="@null" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="10dp"
+            android:text="Vamos mandar um código pelo WhatsApp ou e-mail. Quem receber cola em Listas > Importar e a lista aparece pronta."
+            android:textColor="@color/texto_suave" android:textSize="13sp" />
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton android:id="@+id/enviar" style="@style/Spesa.Botao"
+        android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp"
+        android:text="Enviar para as pessoas" app:icon="@drawable/ic_share" app:iconGravity="textStart" />
+</LinearLayout>

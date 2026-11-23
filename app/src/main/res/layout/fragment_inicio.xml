@@ -1,67 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- início: logo, finanças do mês, atalhos, a lista em andamento e a agenda -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/fundo">
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="vertical" android:padding="20dp">
+        android:orientation="vertical" android:paddingStart="20dp" android:paddingTop="20dp"
+        android:paddingEnd="20dp" android:paddingBottom="24dp">
 
-        <!-- Cabeçalho: inicial do nome, data e saudação -->
+        <!-- logo + avatar -->
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" android:gravity="center_vertical" android:orientation="horizontal">
-            <TextView android:id="@+id/avatar" android:layout_width="44dp" android:layout_height="44dp"
-                android:background="@drawable/bg_avatar" android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold" android:gravity="center"
-                android:textColor="@color/creme" android:textSize="20sp" />
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
-                android:layout_marginStart="12dp" android:orientation="vertical">
-                <TextView android:id="@+id/hoje" android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/Spesa.Suave" />
-                <TextView android:id="@+id/ola" android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:textAppearance="@style/Spesa.Titulo" android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold" android:textColor="@color/texto" android:textSize="23sp" />
-            </LinearLayout>
-            <ImageButton android:id="@+id/sino" android:layout_width="44dp" android:layout_height="44dp"
-                android:background="@drawable/bg_borda_redonda" android:src="@drawable/ic_bell"
-                app:tint="@color/texto" android:contentDescription="Lembretes" />
-        </LinearLayout>
-
-        <!-- Saldo compacto: toca e vai para Finanças -->
-        <LinearLayout android:id="@+id/cartaoSaldo" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" android:background="@drawable/bg_saldo_18" android:gravity="center_vertical"
-            android:orientation="horizontal" android:paddingStart="16dp" android:paddingTop="12dp"
-            android:paddingEnd="12dp" android:paddingBottom="12dp" android:clickable="true" android:focusable="true">
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
-                <TextView android:id="@+id/rotuloSaldo" android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:textColor="@color/sobre_primaria_suave" android:textSize="12sp" />
-                <TextView android:id="@+id/saldo" android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold" android:textColor="@color/creme" android:textSize="24sp" />
-            </LinearLayout>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Finanças"
-                android:textColor="@color/sobre_primaria_suave" android:textSize="13sp" android:textStyle="bold"
-                android:drawableEnd="@drawable/ic_chevron_right" android:drawableTint="@color/sobre_primaria_suave" />
-        </LinearLayout>
-
-        <!-- Atalhos -->
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_marginTop="12dp" android:orientation="horizontal">
-            <TextView android:id="@+id/atalhoLista" style="@style/Spesa.Atalho" android:text="Nova lista" android:drawableTop="@drawable/ic_plus" />
-            <TextView android:id="@+id/atalhoGasto" style="@style/Spesa.Atalho" android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp" android:text="Lançar gasto" android:drawableTop="@drawable/ic_wallet" />
-            <TextView android:id="@+id/atalhoContinuar" style="@style/Spesa.Atalho" android:text="Continuar lista" android:drawableTop="@drawable/ic_cart" />
-        </LinearLayout>
-
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_marginTop="20dp" android:layout_marginBottom="8dp" android:orientation="horizontal">
+            android:layout_marginTop="12dp" android:gravity="center_vertical">
+            <FrameLayout android:layout_width="40dp" android:layout_height="40dp" android:background="@drawable/bg_logo">
+                <ImageView android:layout_width="26dp" android:layout_height="26dp" android:layout_gravity="center"
+                    android:src="@drawable/logo_simbolo" android:contentDescription="@null" />
+            </FrameLayout>
             <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
-                android:text="Na agenda" style="@style/Spesa.Secao" />
+                android:layout_marginStart="10dp" android:text="Spesa" android:textColor="@color/texto" android:textSize="26sp"
+                android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold" />
+            <TextView android:id="@+id/avatar" android:layout_width="40dp" android:layout_height="40dp"
+                android:background="@drawable/bg_avatar" android:gravity="center" android:textColor="@color/creme_fixo"
+                android:textSize="17sp" android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold"
+                android:contentDescription="Perfil" />
+        </LinearLayout>
+
+        <TextView android:id="@+id/ola" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginTop="18dp" android:textColor="@color/texto" android:textSize="24sp"
+            android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold" />
+        <TextView android:id="@+id/hoje" android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/Spesa.Suave" android:textSize="14sp" />
+
+        <!-- finanças do mês -->
+        <LinearLayout android:id="@+id/cartaoSaldo" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" android:background="@drawable/bg_saldo" android:orientation="vertical"
+            android:padding="18dp" android:clickable="true" android:focusable="true" android:foreground="?attr/selectableItemBackground">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
+                <TextView android:id="@+id/rotuloSaldo" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:textColor="@color/sobre_primaria_suave" android:textSize="13sp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Finanças ›"
+                    android:textColor="@color/sobre_primaria_suave" android:textSize="13sp" android:textStyle="bold" />
+            </LinearLayout>
+            <TextView android:id="@+id/saldo" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:textColor="@color/creme_fixo" android:textSize="32sp" android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold" />
+            <!-- barra: quanto do que entrou já saiu -->
+            <ProgressBar android:id="@+id/barraGasto" style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent" android:layout_height="8dp" android:layout_marginTop="10dp"
+                android:progressDrawable="@drawable/barra_saldo" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp">
+                <TextView android:id="@+id/entrou" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:textColor="@color/creme_fixo" android:textSize="13sp" />
+                <TextView android:id="@+id/saiu" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textColor="@color/creme_fixo" android:textSize="13sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- atalhos -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp">
+            <com.google.android.material.button.MaterialButton android:id="@+id/atalhoLista" style="@style/Spesa.BotaoBorda"
+                android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="6dp"
+                android:text="Nova lista" app:icon="@drawable/ic_plus" app:iconTint="@color/primaria" app:iconGravity="textStart" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/atalhoGasto" style="@style/Spesa.BotaoBorda"
+                android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="6dp"
+                android:text="Lançar gasto" app:icon="@drawable/ic_wallet" app:iconTint="@color/primaria" app:iconGravity="textStart" />
+        </LinearLayout>
+
+        <!-- continuar lista: a lista em andamento, com os próximos itens pra marcar aqui mesmo -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="22dp" android:layout_marginBottom="8dp" android:gravity="bottom">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Continuar lista" style="@style/Spesa.Secao" />
+            <TextView android:id="@+id/verListas" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:padding="4dp" android:text="Todas ›" android:textColor="@color/primaria" android:textSize="13sp" android:textStyle="bold" />
+        </LinearLayout>
+        <LinearLayout android:id="@+id/cartaoLista" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:background="@drawable/bg_card_cantos" android:clipToOutline="true" android:orientation="vertical">
+            <LinearLayout android:id="@+id/barraLista" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:background="@color/primaria" android:gravity="center_vertical"
+                android:paddingStart="14dp" android:paddingTop="10dp" android:paddingEnd="14dp" android:paddingBottom="10dp">
+                <TextView android:id="@+id/nomeLista" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:textColor="@color/white" android:textSize="17sp" android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold" />
+                <TextView android:id="@+id/progressoLista" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:background="@drawable/bg_chip_escuro" android:paddingStart="8dp" android:paddingEnd="8dp"
+                    android:paddingTop="2dp" android:paddingBottom="2dp" android:textColor="@color/white" android:textSize="12sp" android:textStyle="bold" />
+            </LinearLayout>
+            <LinearLayout android:id="@+id/itensLista" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" />
+            <TextView android:id="@+id/abrirLista" android:layout_width="match_parent" android:layout_height="48dp"
+                android:background="?attr/selectableItemBackground" android:gravity="center" android:textColor="@color/primaria"
+                android:textSize="14sp" android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- agenda -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="22dp" android:layout_marginBottom="8dp" android:gravity="bottom">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Agenda" style="@style/Spesa.Secao" />
             <TextView android:id="@+id/verAgenda" android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Ver agenda" android:textColor="@color/primaria" android:textSize="13sp" android:textStyle="bold" />
+                android:padding="4dp" android:text="Ver tudo ›" android:textColor="@color/primaria" android:textSize="13sp" android:textStyle="bold" />
         </LinearLayout>
         <LinearLayout android:id="@+id/agenda" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" />
         <TextView android:id="@+id/agendaVazia" android:layout_width="match_parent" android:layout_height="wrap_content"
-            style="@style/Spesa.Suave" android:text="Nada marcado. Toque em Ver agenda para criar um lembrete." />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_marginTop="20dp" android:layout_marginBottom="8dp" android:text="Atividade recente" style="@style/Spesa.Secao" />
-        <LinearLayout android:id="@+id/atividades" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" />
-        <TextView android:id="@+id/atividadesVazia" android:layout_width="match_parent" android:layout_height="wrap_content"
-            style="@style/Spesa.Suave" android:text="O que você fizer no app aparece aqui." />
+            android:background="@drawable/bg_borda_tracejada" android:gravity="center" android:padding="16dp"
+            android:text="Nada marcado. Toque para criar um lembrete." android:textColor="@color/texto_suave" />
     </LinearLayout>
 </ScrollView>

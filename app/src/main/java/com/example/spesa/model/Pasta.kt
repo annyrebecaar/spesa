@@ -15,4 +15,5 @@ data class Pasta(
     val id: Long = System.currentTimeMillis(),
     var nome: String = "",
     var cor: CorPasta = CorPasta.VERDE,
+    var pessoas: MutableList<String>? = null, // com quem a pasta foi compartilhada
 )

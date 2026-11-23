@@ -56,6 +56,14 @@ class AjustesFragment : Fragment() {
         b.gerenciarPastas.setOnClickListener { gerenciarPastas() }
         b.senha.setOnClickListener { trocarSenha() }
         b.backup.setOnClickListener { exportar() }
+        b.exemplo.setOnClickListener {
+            Telas.confirmar(requireActivity(), "Preencher com exemplo?",
+                "Vamos acrescentar mercados, listas, finanças e lembretes de exemplo. Nada do que você já tem é apagado.", "Preencher") {
+                com.example.spesa.dados.Exemplo.preencher()
+                Lembretes.reagendarTodos(requireContext())
+                Toast.makeText(requireContext(), "Pronto! Dá uma olhada no Início.", Toast.LENGTH_SHORT).show()
+            }
+        }
         b.ajuda.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext()).setTitle("Sobre o Spesa")
                 .setMessage("Spesa é uma lista de compras inteligente: soma em tempo real, teto de gastos, comparação de preços entre mercados, finanças do mês e agenda de compras e contas.\n\nDicas:\n• Segure o dedo numa lista, pasta ou lançamento para ver mais opções.\n• Ao finalizar uma compra, o valor pode ir direto para as Finanças.\n\nTodos os dados ficam só neste celular.")

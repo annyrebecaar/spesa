@@ -24,6 +24,9 @@
         <item name="fontFamily">@font/nunito</item>
         <item name="android:fontFamily">@font/nunito</item>
         <item name="bottomNavigationStyle">@style/Spesa.MenuInferior</item>
+        <!-- janelas (diálogos e as que sobem de baixo) no padrão do app -->
+        <item name="materialAlertDialogTheme">@style/Spesa.Dialogo</item>
+        <item name="bottomSheetDialogTheme">@style/Spesa.JanelaDeBaixo</item>
         <item name="android:colorBackground">@color/fundo</item>
         <item name="android:statusBarColor">@color/fundo</item>
         <item name="android:windowLightStatusBar">@bool/barra_clara</item>
@@ -247,5 +250,68 @@
         <item name="android:textSize">11sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:letterSpacing">0.04</item>
+    </style>
+
+    <!-- diálogos: fundo do app, cantos bem redondos, título em Fraunces e botões verdes -->
+    <style name="Spesa.Dialogo" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="colorSurface">@color/superficie</item>
+        <item name="colorSurfaceContainerHigh">@color/superficie</item>
+        <item name="shapeAppearanceOverlay">@style/Spesa.Dialogo.Forma</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/Spesa.Dialogo.Titulo</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/Spesa.Dialogo.Texto</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Spesa.Dialogo.Botao</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Spesa.Dialogo.BotaoSuave</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Spesa.Dialogo.BotaoPerigo</item>
+    </style>
+    <style name="Spesa.Dialogo.Forma" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">28dp</item>
+    </style>
+    <style name="Spesa.Dialogo.Titulo" parent="MaterialAlertDialog.Material3.Title.Text">
+        <item name="android:fontFamily">@font/fraunces_bold</item>
+        <item name="fontFamily">@font/fraunces_bold</item>
+        <item name="android:textColor">@color/texto</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+    <style name="Spesa.Dialogo.Texto" parent="MaterialAlertDialog.Material3.Body.Text">
+        <item name="android:fontFamily">@font/nunito</item>
+        <item name="fontFamily">@font/nunito</item>
+        <item name="android:textColor">@color/texto_suave</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+    <style name="Spesa.Dialogo.Botao" parent="Widget.Material3.Button">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/nunito</item>
+        <item name="cornerRadius">14dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+    </style>
+    <style name="Spesa.Dialogo.BotaoSuave" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/nunito</item>
+        <item name="android:textColor">@color/texto_suave</item>
+    </style>
+    <style name="Spesa.Dialogo.BotaoPerigo" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/nunito</item>
+        <item name="android:textColor">@color/promo</item>
+    </style>
+
+    <!-- janela que sobe de baixo: fundo claro com cantos de cima redondos -->
+    <style name="Spesa.JanelaDeBaixo" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Spesa.JanelaDeBaixo.Folha</item>
+    </style>
+    <style name="Spesa.JanelaDeBaixo.Folha" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="backgroundTint">@color/fundo</item>
+        <item name="shapeAppearance">@style/Spesa.JanelaDeBaixo.Forma</item>
+    </style>
+    <style name="Spesa.JanelaDeBaixo.Forma" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">28dp</item>
+        <item name="cornerSizeTopRight">28dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
     </style>
 </resources>

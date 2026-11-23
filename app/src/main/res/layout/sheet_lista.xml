@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- janela de criar/editar lista (sobe de baixo) -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="vertical" android:paddingStart="20dp" android:paddingTop="8dp"
+    android:paddingEnd="20dp" android:paddingBottom="24dp">
+
+    <View android:layout_width="44dp" android:layout_height="5dp" android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="14dp" android:background="@drawable/bg_alca" />
+
+    <TextView android:id="@+id/titulo" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold"
+        android:text="Nova lista" android:textColor="@color/texto" android:textSize="24sp" />
+    <TextView android:id="@+id/subtitulo" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_marginBottom="14dp" android:text="Dê um nome e, se quiser, um teto de gastos."
+        android:textColor="@color/texto_suave" android:textSize="14sp" />
+
+    <com.google.android.material.textfield.TextInputLayout android:id="@+id/caixaNome" style="@style/Spesa.Campo"
+        android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Nome da lista">
+        <com.google.android.material.textfield.TextInputEditText android:id="@+id/campoNome"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:inputType="textCapSentences" android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout android:id="@+id/caixaOrcamento" style="@style/Spesa.Campo"
+        android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp"
+        android:hint="Teto de gastos (opcional)" app:prefixText="R$ ">
+        <com.google.android.material.textfield.TextInputEditText android:id="@+id/campoOrcamento"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:digits="0123456789.," android:inputType="numberDecimal" android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView android:id="@+id/rotuloEscolha" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_marginTop="16dp" android:text="Pasta" android:textColor="@color/texto" android:textStyle="bold" />
+    <com.google.android.material.chip.ChipGroup android:id="@+id/escolhas" android:layout_width="match_parent"
+        android:layout_height="wrap_content" app:singleSelection="true" />
+
+    <com.google.android.material.button.MaterialButton android:id="@+id/confirmar" style="@style/Spesa.Botao"
+        android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="18dp" android:text="Criar lista" />
+    <TextView android:id="@+id/excluir" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:gravity="center" android:padding="12dp" android:text="Excluir" android:textColor="@color/promo"
+        android:textStyle="bold" android:visibility="gone" />
+</LinearLayout>

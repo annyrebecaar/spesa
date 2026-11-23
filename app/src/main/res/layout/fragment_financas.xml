@@ -39,7 +39,7 @@
                     android:text="Sobrou no mês" android:textColor="@color/sobre_primaria_suave" android:textSize="13sp" />
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
                     <TextView android:id="@+id/sobrou" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
-                        android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold" android:textColor="@color/creme" android:textSize="30sp" />
+                        android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold" android:textColor="@color/creme_fixo" android:textSize="30sp" />
                     <TextView android:id="@+id/pctRenda" android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:background="@drawable/bg_saldo_bloco" android:paddingStart="10dp" android:paddingTop="4dp"
                         android:paddingEnd="10dp" android:paddingBottom="4dp" android:textColor="@color/white" android:textSize="12sp" android:textStyle="bold" />

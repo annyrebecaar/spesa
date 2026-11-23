@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- barrinha dentro do cartão verde: fundo verde mais escuro, parte cheia creme -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background">
+        <shape><corners android:radius="4dp" /><solid android:color="#33FFFFFF" /></shape>
+    </item>
+    <item android:id="@android:id/progress">
+        <clip><shape><corners android:radius="4dp" /><solid android:color="#F6F2E8" /></shape></clip>
+    </item>
+</layer-list>

@@ -50,8 +50,9 @@
                 android:textColor="@color/primaria" android:textSize="11sp" android:textStyle="bold" android:visibility="gone" />
         </LinearLayout>
 
-        <ImageView android:id="@+id/seta" android:layout_width="20dp" android:layout_height="20dp"
-            android:layout_marginStart="4dp" android:src="@drawable/ic_chevron_right"
+        <ImageView android:id="@+id/seta" android:layout_width="36dp" android:layout_height="36dp"
+            android:layout_marginStart="2dp" android:padding="8dp" android:src="@drawable/ic_chevron_right"
+            android:background="?attr/selectableItemBackgroundBorderless"
             app:tint="@color/texto_suave" android:visibility="gone" android:contentDescription="@null" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

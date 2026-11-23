@@ -35,7 +35,7 @@ class PastaActivity : AppCompatActivity() {
 
         b.voltar.setOnClickListener { finish() }
         b.editar.setOnClickListener {
-            Telas.dialogoPasta(this, pasta) {
+            Telas.menuDaPasta(this, pasta) {
                 // Se a pasta foi excluída, volta para a tela anterior.
                 if (Repositorio.pasta(pasta.id) == null) finish() else atualizar()
             }

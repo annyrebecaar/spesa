@@ -17,7 +17,7 @@
             <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
                 android:layout_marginStart="12dp" android:orientation="vertical">
                 <TextView android:id="@+id/nome" android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold" android:textColor="@color/creme" android:textSize="19sp" />
+                    android:fontFamily="@font/fraunces_bold" app:fontFamily="@font/fraunces_bold" android:textColor="@color/creme_fixo" android:textSize="19sp" />
                 <TextView android:id="@+id/email" android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:textColor="@color/sobre_primaria_suave" android:textSize="13sp" />
             </LinearLayout>
@@ -92,6 +92,12 @@
                 <TextView style="@style/Spesa.TextoAjuste" android:text="Backup dos dados" />
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Exportar"
                     android:textColor="@color/primaria" android:textStyle="bold" />
+            </LinearLayout>
+            <View style="@style/Spesa.Divisor" />
+            <LinearLayout android:id="@+id/exemplo" style="@style/Spesa.ItemAjuste">
+                <ImageView style="@style/Spesa.IconeAjuste" android:src="@drawable/ic_plus" />
+                <TextView style="@style/Spesa.TextoAjuste" android:text="Preencher com dados de exemplo" />
+                <ImageView style="@style/Spesa.SetaAjuste" />
             </LinearLayout>
             <View style="@style/Spesa.Divisor" />
             <LinearLayout android:id="@+id/ajuda" style="@style/Spesa.ItemAjuste">

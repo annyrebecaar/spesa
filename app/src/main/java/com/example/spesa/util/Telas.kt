@@ -8,7 +8,10 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.example.spesa.R
 import com.example.spesa.dados.Repositorio
-import com.example.spesa.databinding.DialogNovaListaBinding
+import com.example.spesa.databinding.SheetCompartilharBinding
+import com.example.spesa.databinding.SheetListaBinding
+import com.example.spesa.databinding.SheetMenuBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.example.spesa.databinding.ItemLinhaBinding
 import com.example.spesa.databinding.ItemPastaBinding
 import com.example.spesa.model.CorPasta
@@ -19,8 +22,6 @@ import com.example.spesa.ui.PastaActivity
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 
 /**
  * Pedaços de tela e diálogos usados em mais de uma tela.
@@ -63,6 +64,11 @@ object Telas {
             }
         }
         l.subtitulo.text = partes.joinToString(" · ")
+        // ⋮ no canto: abre o menu (editar, compartilhar, apagar...)
+        l.seta.visivel(true)
+        l.seta.setImageResource(R.drawable.ic_more)
+        l.seta.setOnClickListener { aoSegurar(lista) }
+        if (!lista.pessoas.isNullOrEmpty()) l.subtitulo.append(" · com ${lista.pessoas!!.joinToString()}")
         l.root.setOnClickListener { abrirLista(ctx as Activity, lista.id) }
         l.root.setOnLongClickListener { aoSegurar(lista); true }
     }
@@ -92,15 +98,9 @@ object Telas {
         activity.startActivity(Intent(activity, ListaActivity::class.java).putExtra(ListaActivity.EXTRA_LISTA_ID, id))
     }
 
-    /** Monta um chip de escolha (usado em todos os grupos de chips criados no código). */
+    /** chip de escolha (vem do item_chip.xml, já com as cores do app) */
     fun chip(grupo: ChipGroup, texto: String, marcado: Boolean = false): Chip {
-        val chip = Chip(grupo.context, null, com.google.android.material.R.attr.chipStyle)
-        chip.setChipBackgroundColorResource(R.color.chip_fundo)
-        chip.setChipStrokeColorResource(R.color.chip_borda)
-        chip.chipStrokeWidth = grupo.resources.displayMetrics.density * 1.5f
-        chip.setTextColor(ContextCompat.getColorStateList(grupo.context, R.color.chip_texto))
-        chip.isCheckable = true
-        chip.isCheckedIconVisible = false
+        val chip = LayoutInflater.from(grupo.context).inflate(R.layout.item_chip, grupo, false) as Chip
         chip.text = texto
         chip.id = android.view.View.generateViewId()
         grupo.addView(chip)
@@ -108,100 +108,213 @@ object Telas {
         return chip
     }
 
-    /**
-     * Diálogo de criar (lista == null) ou editar uma lista.
-     * pastaInicial: pasta já marcada (quando criamos de dentro de uma pasta).
-     */
+    /** abre uma janela que sobe de baixo com o layout dado */
+    private fun janela(activity: Activity, conteudo: android.view.View): BottomSheetDialog {
+        val j = BottomSheetDialog(activity)
+        j.setContentView(conteudo)
+        j.behavior.state = com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+        j.behavior.skipCollapsed = true
+        j.show()
+        return j
+    }
+
+    /** menu que sobe de baixo: lista de (ícone, texto, o que fazer) */
+    fun menu(activity: Activity, titulo: String, opcoes: List<Triple<Int, String, () -> Unit>>, perigo: String? = null) {
+        val m = SheetMenuBinding.inflate(activity.layoutInflater)
+        m.titulo.text = titulo
+        lateinit var j: BottomSheetDialog
+        opcoes.forEach { (icone, texto, acao) ->
+            val op = activity.layoutInflater.inflate(R.layout.item_opcao, m.opcoes, false) as android.widget.TextView
+            op.text = texto
+            op.setCompoundDrawablesRelativeWithIntrinsicBounds(icone, 0, 0, 0)
+            if (texto == perigo) {
+                op.setTextColor(cor(activity, R.color.promo))
+                op.compoundDrawableTintList = ColorStateList.valueOf(cor(activity, R.color.promo))
+            }
+            op.setOnClickListener { j.dismiss(); acao() }
+            m.opcoes.addView(op)
+        }
+        j = janela(activity, m.root)
+    }
+
+    /** pergunta "tem certeza?" antes de apagar */
+    fun confirmar(activity: Activity, titulo: String, mensagem: String, botao: String, acao: () -> Unit) {
+        MaterialAlertDialogBuilder(activity)
+            .setTitle(titulo).setMessage(mensagem)
+            .setNegativeButton(R.string.cancelar, null)
+            .setPositiveButton(botao) { _, _ -> acao() }
+            .show()
+    }
+
+    /** criar (lista == null) ou editar uma lista: nome, teto de gastos e pasta */
     fun dialogoLista(activity: Activity, lista: ListaDeCompras?, pastaInicial: Long? = null, depois: () -> Unit) {
-        val campos = DialogNovaListaBinding.inflate(activity.layoutInflater)
-        val chips = Repositorio.pastas.associateWith { p ->
-            chip(campos.grupoPastas, p.nome, p.id == (lista?.pastaId ?: pastaInicial))
-        }
+        val f = SheetListaBinding.inflate(activity.layoutInflater)
+        f.titulo.text = if (lista == null) "Nova lista" else "Editar lista"
+        f.confirmar.text = if (lista == null) "Criar lista" else "Salvar"
+        val pastaAtual = lista?.pastaId ?: pastaInicial
+        val semPasta = chip(f.escolhas, "Sem pasta", pastaAtual == null)
+        val chips = Repositorio.pastas.associateWith { p -> chip(f.escolhas, p.nome, p.id == pastaAtual) }
         if (lista != null) {
-            campos.campoTitulo.setText(lista.titulo)
-            if (lista.orcamento > 0) campos.campoOrcamento.setText(lista.orcamento.toString().replace(".", ","))
+            f.campoNome.setText(lista.titulo)
+            if (lista.orcamento > 0) f.campoOrcamento.setText(Formato.numero(lista.orcamento))
         }
-        MaterialAlertDialogBuilder(activity)
-            .setTitle(if (lista == null) "Nova lista" else "Editar lista")
-            .setView(campos.root)
-            .setNegativeButton(R.string.cancelar, null)
-            .setPositiveButton(if (lista == null) R.string.criar else R.string.salvar) { _, _ ->
-                val titulo = campos.campoTitulo.text.toString().trim().ifBlank { "Minha lista" }
-                val orcamento = Formato.lerReais(campos.campoOrcamento.text.toString())
-                val pastaId = chips.entries.find { it.value.isChecked }?.key?.id
-                if (lista == null) {
-                    val nova = ListaDeCompras(titulo = titulo, orcamento = orcamento, pastaId = pastaId)
-                    Repositorio.adicionarLista(nova)
-                    Repositorio.registrar("Você criou a lista $titulo", "mais")
-                    abrirLista(activity, nova.id)
-                } else {
-                    lista.titulo = titulo
-                    lista.orcamento = orcamento
-                    lista.pastaId = pastaId
-                    Repositorio.salvar()
-                }
-                depois()
+        val j = janela(activity, f.root)
+        f.confirmar.setOnClickListener {
+            val titulo = f.campoNome.text.toString().trim()
+            if (titulo.isBlank()) { f.caixaNome.error = "Dê um nome pra lista"; return@setOnClickListener }
+            val orcamento = Formato.lerReais(f.campoOrcamento.text.toString())
+            val pastaId = if (semPasta.isChecked) null else chips.entries.find { it.value.isChecked }?.key?.id
+            if (lista == null) {
+                val nova = ListaDeCompras(titulo = titulo, orcamento = orcamento, pastaId = pastaId)
+                Repositorio.adicionarLista(nova)
+                Repositorio.registrar("Você criou a lista $titulo", "mais")
+                abrirLista(activity, nova.id)
+            } else {
+                lista.titulo = titulo; lista.orcamento = orcamento; lista.pastaId = pastaId
+                Repositorio.salvar()
             }
-            .show()
+            j.dismiss(); depois()
+        }
     }
 
-    /** Menu ao segurar o dedo numa lista: editar, duplicar, finalizar/reabrir, excluir. */
+    /** menu ao tocar no ⋮ ou segurar o dedo numa lista */
     fun menuDaLista(activity: Activity, lista: ListaDeCompras, depois: () -> Unit) {
-        val opcoes = arrayOf("Editar", "Duplicar", if (lista.finalizada) "Reabrir" else "Finalizar", "Excluir")
-        MaterialAlertDialogBuilder(activity)
-            .setTitle(lista.titulo)
-            .setItems(opcoes) { _, qual ->
-                when (qual) {
-                    0 -> dialogoLista(activity, lista, depois = depois)
-                    1 -> { Repositorio.adicionarLista(lista.clonar("${lista.titulo} (cópia)")); depois() }
-                    2 -> {
-                        lista.finalizada = !lista.finalizada
-                        lista.finalizadaEm = if (lista.finalizada) System.currentTimeMillis() else null
-                        Repositorio.salvar(); depois()
-                    }
-                    3 -> MaterialAlertDialogBuilder(activity)
-                        .setTitle("Excluir")
-                        .setMessage("Excluir a lista \"${lista.titulo}\"? Isso não pode ser desfeito.")
-                        .setNegativeButton(R.string.cancelar, null)
-                        .setPositiveButton(R.string.excluir) { _, _ -> Repositorio.removerLista(lista.id); depois() }
-                        .show()
+        menu(activity, lista.titulo, listOf(
+            Triple(R.drawable.ic_lists, "Abrir") { abrirLista(activity, lista.id) },
+            Triple(R.drawable.ic_sliders, "Editar nome, teto e pasta") { dialogoLista(activity, lista, depois = depois) },
+            Triple(R.drawable.ic_share, "Compartilhar com pessoas") { compartilhar(activity, lista.titulo, listOf(lista), null, depois) },
+            Triple(R.drawable.ic_copy, "Duplicar") {
+                Repositorio.adicionarLista(lista.clonar("${lista.titulo} (cópia)")); depois()
+            },
+            Triple(R.drawable.ic_check_line, if (lista.finalizada) "Reabrir" else "Marcar como finalizada") {
+                lista.finalizada = !lista.finalizada
+                lista.finalizadaEm = if (lista.finalizada) System.currentTimeMillis() else null
+                Repositorio.salvar(); depois()
+            },
+            Triple(R.drawable.ic_delete, "Apagar lista") {
+                confirmar(activity, "Apagar lista?", "A lista \"${lista.titulo}\" e os itens dela somem. Não dá pra desfazer.", "Apagar") {
+                    Repositorio.removerLista(lista.id)
+                    Repositorio.registrar("Você apagou a lista ${lista.titulo}", "saida")
+                    depois()
                 }
-            }
-            .show()
+            },
+        ), perigo = "Apagar lista")
     }
 
-    /** Diálogo de criar (pasta == null) ou editar uma pasta: nome + cor. */
-    fun dialogoPasta(activity: Activity, pasta: Pasta?, depois: () -> Unit) {
-        val ctx = activity
-        val dp = ctx.resources.displayMetrics.density
-        val caixa = android.widget.LinearLayout(ctx).apply {
-            orientation = android.widget.LinearLayout.VERTICAL
-            setPadding((24 * dp).toInt(), (8 * dp).toInt(), (24 * dp).toInt(), 0)
-        }
-        val campoLayout = TextInputLayout(ctx, null, com.google.android.material.R.attr.textInputOutlinedStyle).apply { hint = "Nome da pasta" }
-        val campo = TextInputEditText(campoLayout.context).apply { setText(pasta?.nome ?: "") }
-        campoLayout.addView(campo)
-        caixa.addView(campoLayout)
-        val grupo = ChipGroup(ctx).apply { isSingleSelection = true; isSelectionRequired = true }
-        caixa.addView(grupo)
-        val chips = CorPasta.entries.associateWith { c -> chip(grupo, c.rotulo, c == (pasta?.cor ?: CorPasta.VERDE)) }
-        chips.forEach { (c, chip) -> chip.chipIcon = null; chip.setChipIconResource(R.drawable.bg_avatar); chip.chipIconTint = ColorStateList.valueOf(cor(ctx, c.corRes)); chip.isChipIconVisible = true }
+    /** menu de uma pasta */
+    fun menuDaPasta(activity: Activity, pasta: Pasta, depois: () -> Unit) {
+        menu(activity, pasta.nome, listOf(
+            Triple(R.drawable.ic_sliders, "Editar nome e cor") { dialogoPasta(activity, pasta, depois) },
+            Triple(R.drawable.ic_share, "Compartilhar a pasta inteira") {
+                compartilhar(activity, pasta.nome, Repositorio.listasDaPasta(pasta.id), pasta, depois)
+            },
+            Triple(R.drawable.ic_delete, "Apagar pasta") {
+                confirmar(activity, "Apagar pasta?", "As listas de dentro não somem: só ficam sem pasta.", "Apagar") {
+                    Repositorio.removerPasta(pasta.id); depois()
+                }
+            },
+        ), perigo = "Apagar pasta")
+    }
 
-        val dialogo = MaterialAlertDialogBuilder(ctx)
-            .setTitle(if (pasta == null) "Nova pasta" else "Editar pasta")
-            .setView(caixa)
-            .setNegativeButton(R.string.cancelar, null)
-            .setPositiveButton(R.string.salvar) { _, _ ->
-                val nome = campo.text.toString().trim().ifBlank { "Nova pasta" }
-                val corEscolhida = chips.entries.find { it.value.isChecked }?.key ?: CorPasta.VERDE
-                val p = pasta ?: Pasta()
-                p.nome = nome; p.cor = corEscolhida
-                Repositorio.salvarPasta(p)
-                depois()
+    /** criar (pasta == null) ou editar uma pasta: nome e cor */
+    fun dialogoPasta(activity: Activity, pasta: Pasta?, depois: () -> Unit) {
+        val f = SheetListaBinding.inflate(activity.layoutInflater)
+        f.titulo.text = if (pasta == null) "Nova pasta" else "Editar pasta"
+        f.subtitulo.text = "Pastas juntam listas parecidas, como \"Mercado do mês\"."
+        f.caixaNome.hint = "Nome da pasta"
+        f.caixaOrcamento.visivel(false)
+        f.rotuloEscolha.text = "Cor"
+        f.confirmar.text = if (pasta == null) "Criar pasta" else "Salvar"
+        pasta?.let { f.campoNome.setText(it.nome) }
+        val chips = CorPasta.entries.associateWith { c ->
+            chip(f.escolhas, c.rotulo, c == (pasta?.cor ?: CorPasta.VERDE)).apply {
+                setChipIconResource(R.drawable.bg_avatar)
+                chipIconTint = ColorStateList.valueOf(cor(activity, c.corRes))
+                isChipIconVisible = true
             }
-        if (pasta != null) dialogo.setNeutralButton("Excluir") { _, _ ->
-            Repositorio.removerPasta(pasta.id); depois()
         }
-        dialogo.show()
+        f.escolhas.isSelectionRequired = true
+        val j = janela(activity, f.root)
+        f.confirmar.setOnClickListener {
+            val nome = f.campoNome.text.toString().trim()
+            if (nome.isBlank()) { f.caixaNome.error = "Dê um nome pra pasta"; return@setOnClickListener }
+            val p = pasta ?: Pasta()
+            p.nome = nome
+            p.cor = chips.entries.find { it.value.isChecked }?.key ?: CorPasta.VERDE
+            Repositorio.salvarPasta(p)
+            j.dismiss(); depois()
+        }
+    }
+
+    /**
+     * compartilhar com pessoas: guarda quem participa e manda um código
+     * que a outra pessoa cola no app dela (Listas > Importar).
+     */
+    fun compartilhar(activity: Activity, titulo: String, listas: List<ListaDeCompras>, pasta: Pasta?, depois: () -> Unit) {
+        val f = SheetCompartilharBinding.inflate(activity.layoutInflater)
+        f.titulo.text = "Compartilhar"
+        f.subtitulo.text = if (pasta != null) "Pasta \"$titulo\" com ${listas.size} lista(s)" else "Lista \"$titulo\""
+        val pessoas = (pasta?.pessoas ?: listas.firstOrNull()?.pessoas ?: mutableListOf()).toMutableList()
+
+        fun mostrarPessoas() {
+            f.pessoas.removeAllViews()
+            val eu = Repositorio.usuario?.nome ?: "Você"
+            (listOf("$eu (você)") + pessoas).forEachIndexed { i, nome ->
+                val l = linha(f.pessoas)
+                l.caixaData.visivel(false)
+                l.caixaIcone.visivel(true)
+                l.caixaIcone.setBackgroundResource(R.drawable.bg_avatar)
+                l.caixaIcone.backgroundTintList = ColorStateList.valueOf(cor(activity, listOf(R.color.primaria, R.color.pasta_vermelha, R.color.pasta_salvia, R.color.pasta_amarela)[i % 4]))
+                l.icone.visivel(false)
+                l.titulo.text = nome
+                l.subtitulo.text = if (i == 0) "dona da lista" else "pode ver e editar a cópia que receber"
+                if (i > 0) {
+                    l.valor.text = "remover"
+                    l.valor.setTextColor(cor(activity, R.color.promo))
+                    l.valor.textSize = 13f
+                    l.root.setOnClickListener { pessoas.removeAt(i - 1); mostrarPessoas() }
+                }
+            }
+        }
+        mostrarPessoas()
+        f.adicionar.setOnClickListener {
+            val nome = f.campoPessoa.text.toString().trim()
+            if (nome.isBlank()) return@setOnClickListener
+            pessoas.add(nome); f.campoPessoa.setText(""); mostrarPessoas()
+        }
+        val j = janela(activity, f.root)
+        f.enviar.setOnClickListener {
+            // guarda quem participa
+            if (pasta != null) pasta.pessoas = pessoas
+            listas.forEach { it.pessoas = pessoas.toMutableList() }
+            Repositorio.salvar()
+            if (pessoas.isNotEmpty()) Repositorio.registrar("Você compartilhou $titulo com ${pessoas.joinToString()}", "mais")
+            val texto = Compartilhar.mensagem(titulo, Compartilhar.codigo(listas, pasta))
+            activity.startActivity(Intent.createChooser(
+                Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, texto), "Enviar para..."))
+            j.dismiss(); depois()
+        }
+    }
+
+    /** colar o código que alguém mandou e trazer a lista pra cá */
+    fun importar(activity: Activity, depois: () -> Unit) {
+        val f = SheetListaBinding.inflate(activity.layoutInflater)
+        f.titulo.text = "Importar lista"
+        f.subtitulo.text = "Cole aqui a mensagem que recebeu no WhatsApp ou e-mail."
+        f.caixaNome.hint = "Código (começa com SPESA:)"
+        f.campoNome.maxLines = 4
+        f.caixaOrcamento.visivel(false)
+        f.rotuloEscolha.visivel(false)
+        f.confirmar.text = "Importar"
+        // se o código já estiver copiado, cola sozinho
+        val area = activity.getSystemService(android.content.ClipboardManager::class.java)
+        area.primaryClip?.getItemAt(0)?.text?.toString()?.let { if (it.contains("SPESA:")) f.campoNome.setText(it) }
+        val j = janela(activity, f.root)
+        f.confirmar.setOnClickListener {
+            val n = Compartilhar.importar(f.campoNome.text.toString())
+            if (n < 0) { f.caixaNome.error = "Código inválido"; return@setOnClickListener }
+            android.widget.Toast.makeText(activity, "$n lista(s) importada(s)!", android.widget.Toast.LENGTH_SHORT).show()
+            j.dismiss(); depois()
+        }
     }
 }

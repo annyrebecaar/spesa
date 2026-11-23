@@ -12,6 +12,7 @@ data class ListaDeCompras(
     var finalizadaEm: Long? = null,      // quando a compra foi finalizada
     var mercadoCompraId: Long? = null,   // onde a compra foi feita
     var totalPago: Double? = null,       // quanto foi pago ao finalizar
+    var pessoas: MutableList<String>? = null, // com quem a lista foi compartilhada (nome ou e-mail)
 ) {
     /** Soma de tudo que já está no carrinho. */
     fun totalNoCarrinho(): Double = itens.filter { it.noCarrinho }.sumOf { it.total() }

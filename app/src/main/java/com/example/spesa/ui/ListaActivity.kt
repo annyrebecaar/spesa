@@ -151,7 +151,11 @@ class ListaActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.acao_despensa -> adicionarDaDespensa()
-            R.id.acao_compartilhar -> compartilhar()
+            R.id.acao_compartilhar -> Telas.compartilhar(this, lista.titulo, listOf(lista), null) {}
+            R.id.acao_enviar_texto -> compartilhar()
+            R.id.acao_apagar -> Telas.confirmar(this, "Apagar lista?", "A lista \"${lista.titulo}\" some de vez.", "Apagar") {
+                Repositorio.removerLista(lista.id); finish()
+            }
             R.id.acao_editar -> Telas.dialogoLista(this, lista) { atualizar() }
             R.id.acao_comparar -> startActivity(
                 Intent(this, ComparativoActivity::class.java).putExtra(EXTRA_LISTA_ID, lista.id)

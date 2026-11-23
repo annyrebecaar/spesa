@@ -41,6 +41,8 @@ class ListasFragment : Fragment() {
         b.campoBusca.doAfterTextChanged { atualizar() }
         b.novaPasta.setOnClickListener { Telas.dialogoPasta(requireActivity(), null) { atualizar() } }
         b.botaoNovaLista.setOnClickListener { novaLista() }
+        b.importar.setOnClickListener { Telas.importar(requireActivity()) { atualizar() } }
+        b.importarVazio.setOnClickListener { Telas.importar(requireActivity()) { atualizar() } }
         b.criarPrimeira.setOnClickListener { novaLista() }
 
         // Listas prontas para quem está começando
@@ -84,7 +86,7 @@ class ListasFragment : Fragment() {
             b.pastas.addView(linha, LinearLayout.LayoutParams(-1, -2).apply { bottomMargin = (16 * dp).toInt() })
             par.forEachIndexed { i, pasta ->
                 val p = Telas.pasta(linha, pasta)
-                p.root.setOnLongClickListener { Telas.dialogoPasta(requireActivity(), pasta) { atualizar() }; true }
+                p.root.setOnLongClickListener { Telas.menuDaPasta(requireActivity(), pasta) { atualizar() }; true }
                 linha.addView(p.root, LinearLayout.LayoutParams(0, (100 * dp).toInt(), 1f).apply {
                     if (i == 0) marginEnd = (8 * dp).toInt() else marginStart = (8 * dp).toInt()
                 })
