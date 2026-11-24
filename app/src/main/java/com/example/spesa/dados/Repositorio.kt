@@ -192,6 +192,22 @@ object Repositorio {
             .map { it.key to it.value.sumOf { l -> l.valor } }
             .sortedByDescending { it.second }
 
+    // ---------- Etiquetas ----------
+
+    /** Etiquetas criadas pelo usuário (Hortifruti, Limpeza... já vêm prontas). */
+    fun etiquetasCriadas(): List<String> =
+        prefs.getString("etiquetas", "").orEmpty().split("|").filter { it.isNotBlank() }
+
+    fun criarEtiqueta(nome: String) {
+        val nova = nome.trim()
+        if (nova.isEmpty() || todasEtiquetas().any { it.equals(nova, ignoreCase = true) }) return
+        prefs.edit().putString("etiquetas", (etiquetasCriadas() + nova).joinToString("|")).apply()
+    }
+
+    /** As prontas primeiro, depois as criadas. */
+    fun todasEtiquetas(): List<String> =
+        com.example.spesa.model.Categoria.rotulos() + etiquetasCriadas()
+
     // ---------- Metas ----------
     // guardadas direto nas preferências, separadas das listas
 

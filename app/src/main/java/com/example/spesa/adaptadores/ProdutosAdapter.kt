@@ -9,6 +9,7 @@ import com.example.spesa.databinding.ItemProdutoBinding
 import com.example.spesa.model.Produto
 import com.example.spesa.util.Formato
 import com.example.spesa.util.mostrarCategoria
+import com.example.spesa.util.mostrarEtiqueta
 import com.example.spesa.util.visivel
 
 class ProdutosAdapter(
@@ -36,7 +37,7 @@ class ProdutosAdapter(
         val b = holder.b
 
         b.nome.text = if (produto.marca.isBlank()) produto.nome else "${produto.nome} · ${produto.marca}"
-        b.tagCategoria.mostrarCategoria(produto.categoria)
+        b.tagCategoria.mostrarEtiqueta(produto)
 
         val menor = produto.menorPreco()
         val mercado = Repositorio.mercado(menor?.mercadoId)

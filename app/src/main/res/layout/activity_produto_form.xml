@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:layout_weight="1"
-                    android:hint="@string/categoria">
+                    android:hint="Etiqueta">
 
                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/campoCategoria"

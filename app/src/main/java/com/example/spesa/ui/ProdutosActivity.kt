@@ -17,10 +17,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 class ProdutosActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_MERCADO_ID = "mercado_id"
+        const val TODAS = "Todas"
     }
 
     // quando abre de dentro de um mercado, mostra só os produtos dele
     private var mercado: com.example.spesa.model.Mercado? = null
+
+    // etiqueta escolhida na fileira de cima ("Todas" = sem filtro)
+    private var etiqueta = TODAS
 
     private lateinit var b: ActivityProdutosBinding
     private lateinit var adapter: ProdutosAdapter
@@ -57,13 +61,40 @@ class ProdutosActivity : AppCompatActivity() {
     }
 
     private fun atualizar() {
+        montarEtiquetas()
         val busca = b.campoBusca.text.toString().trim()
         val filtrados = Repositorio.produtos
+            .filter { etiqueta == TODAS || it.nomeEtiqueta() == etiqueta }
             .filter { p -> mercado == null || p.precoEm(mercado!!.id) != null }
             .filter { busca.isEmpty() || it.nome.contains(busca, ignoreCase = true) || it.marca.contains(busca, ignoreCase = true) }
-            .sortedWith(compareByDescending<Produto> { it.favorito }.thenBy { it.nome.lowercase() })
+            // separa por etiqueta: favoritos primeiro, depois agrupa pela etiqueta e pelo nome
+            .sortedWith(compareByDescending<Produto> { it.favorito }.thenBy { it.nomeEtiqueta() }.thenBy { it.nome.lowercase() })
         adapter.atualizar(filtrados)
         b.textoVazio.visivel(filtrados.isEmpty())
+    }
+
+    /** um chip por etiqueta que tem produto, com a cor dela */
+    private fun montarEtiquetas() {
+        val doMercado = Repositorio.produtos.filter { p -> mercado == null || p.precoEm(mercado!!.id) != null }
+        val contagem = doMercado.groupingBy { it.nomeEtiqueta() }.eachCount()
+        val nomes = listOf(TODAS) + Repositorio.todasEtiquetas().filter { (contagem[it] ?: 0) > 0 }
+        if (etiqueta !in nomes) etiqueta = TODAS
+        b.etiquetas.removeAllViews()
+        nomes.forEach { nome ->
+            val chip = com.example.spesa.util.Telas.chip(b.etiquetas, nome, nome == etiqueta)
+            // bolinha com a cor da etiqueta ("Todas" não tem cor)
+            if (nome != TODAS) {
+                val pronta = com.example.spesa.model.Categoria.entries.find { it.rotulo == nome }
+                val cor = getColor(pronta?.corRes ?: R.color.cat_outros)
+                chip.chipIcon = android.graphics.drawable.GradientDrawable().apply {
+                    shape = android.graphics.drawable.GradientDrawable.OVAL
+                    setColor(cor)
+                    setSize(36, 36)
+                }
+                chip.isChipIconVisible = true
+            }
+            chip.setOnClickListener { etiqueta = nome; atualizar() }
+        }
     }
 
     private fun abrirFormulario(produto: Produto?) {

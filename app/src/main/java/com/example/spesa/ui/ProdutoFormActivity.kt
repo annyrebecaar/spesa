@@ -26,13 +26,14 @@ class ProdutoFormActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_PRODUTO_ID = "produto_id"
+        const val NOVA = "+ Nova etiqueta"
         const val EXTRA_MERCADO_ID = "mercado_id"   // veio de dentro de um mercado
     }
 
     private lateinit var b: ActivityProdutoFormBinding
     private lateinit var produto: Produto
     private lateinit var precosAdapter: PrecosAdapter
-    private var categoriaEscolhida = Categoria.OUTROS
+    private var etiquetaEscolhida = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +44,7 @@ class ProdutoFormActivity : AppCompatActivity() {
         val original = Repositorio.produto(intent.getLongExtra(EXTRA_PRODUTO_ID, -1))
         // Cópia para poder cancelar sem estragar o original
         produto = original?.copy(precos = original.precos.map { it.copy() }.toMutableList()) ?: Produto()
-        categoriaEscolhida = produto.categoria
+        etiquetaEscolhida = produto.nomeEtiqueta()
 
         b.toolbar.title = getString(if (original == null) R.string.novo_produto else R.string.editar_produto)
         b.toolbar.setNavigationOnClickListener { finish() }
@@ -53,9 +54,7 @@ class ProdutoFormActivity : AppCompatActivity() {
         b.campoDescricao.setText(produto.descricao)
         b.trocaFavorito.isChecked = produto.favorito
 
-        b.campoCategoria.setAdapter(ArrayAdapter(this, android.R.layout.simple_list_item_1, Categoria.rotulos()))
-        b.campoCategoria.setText(categoriaEscolhida.rotulo, false)
-        b.campoCategoria.setOnItemClickListener { _, _, posicao, _ -> categoriaEscolhida = Categoria.entries[posicao] }
+        montarEtiquetas()
 
         precosAdapter = PrecosAdapter(aoClicar = { dialogoPreco(it) }, aoSegurar = ::removerPreco)
         b.listaPrecos.layoutManager = LinearLayoutManager(this)
@@ -68,6 +67,37 @@ class ProdutoFormActivity : AppCompatActivity() {
             startActivity(android.content.Intent(this, ComparativoActivity::class.java)
                 .putExtra(ComparativoActivity.EXTRA_PRODUTO, produto.id))
         }
+    }
+
+    /** caixa de etiquetas: as prontas, as criadas e, no fim, "+ Nova etiqueta" */
+    private fun montarEtiquetas() {
+        val opcoes = Repositorio.todasEtiquetas() + NOVA
+        b.campoCategoria.setAdapter(ArrayAdapter(this, android.R.layout.simple_list_item_1, opcoes))
+        b.campoCategoria.setText(etiquetaEscolhida, false)
+        b.campoCategoria.setOnItemClickListener { _, _, posicao, _ ->
+            if (opcoes[posicao] == NOVA) novaEtiqueta() else etiquetaEscolhida = opcoes[posicao]
+        }
+    }
+
+    /** janelinha para digitar o nome da etiqueta nova */
+    private fun novaEtiqueta() {
+        val campo = android.widget.EditText(this).apply { hint = "Ex.: Pet, Festa, Bebê" }
+        val caixa = android.widget.FrameLayout(this).apply {
+            val p = (20 * resources.displayMetrics.density).toInt()
+            setPadding(p, p / 2, p, 0); addView(campo)
+        }
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Nova etiqueta")
+            .setView(caixa)
+            .setNegativeButton(R.string.cancelar) { _, _ -> b.campoCategoria.setText(etiquetaEscolhida, false) }
+            .setPositiveButton("Criar") { _, _ ->
+                val nome = campo.text.toString().trim()
+                if (nome.isNotEmpty()) {
+                    Repositorio.criarEtiqueta(nome)
+                    etiquetaEscolhida = Repositorio.todasEtiquetas().find { it.equals(nome, true) } ?: nome
+                }
+                montarEtiquetas()
+            }.show()
     }
 
     private fun atualizarPrecos() {
@@ -143,7 +173,10 @@ class ProdutoFormActivity : AppCompatActivity() {
         produto.nome = nome
         produto.marca = b.campoMarca.text.toString().trim()
         produto.descricao = b.campoDescricao.text.toString().trim()
-        produto.categoria = categoriaEscolhida
+        // etiqueta pronta vira a categoria; etiqueta criada fica em "etiqueta"
+        val pronta = Categoria.entries.find { it.rotulo == etiquetaEscolhida }
+        produto.categoria = pronta ?: Categoria.OUTROS
+        produto.etiqueta = if (pronta == null) etiquetaEscolhida else ""
         produto.favorito = b.trocaFavorito.isChecked
         Repositorio.salvarProduto(produto)
         finish()

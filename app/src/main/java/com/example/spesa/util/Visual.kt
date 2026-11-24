@@ -19,6 +19,12 @@ fun TextView.mostrarCategoria(categoria: Categoria) {
     backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, categoria.corRes))
 }
 
+/** Mostra a etiqueta de um produto (as criadas pelo usuário ficam na cor de "Outros"). */
+fun TextView.mostrarEtiqueta(produto: com.example.spesa.model.Produto) {
+    mostrarCategoria(if (produto.etiqueta.isBlank()) produto.categoria else Categoria.OUTROS)
+    text = produto.nomeEtiqueta()
+}
+
 /** Troca a cor de uma barra de progresso (verde, amarelo, vermelho...). */
 fun ProgressBar.pintar(corRes: Int) {
     progressTintList = ColorStateList.valueOf(ContextCompat.getColor(context, corRes))
