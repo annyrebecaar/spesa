@@ -19,9 +19,9 @@
 
         <!-- barra com as datas, na cor da pasta da lista -->
         <LinearLayout android:id="@+id/barraDatas" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_marginStart="16dp" android:layout_marginEnd="16dp" android:layout_marginBottom="10dp"
-            android:background="@drawable/bg_barra_datas" android:gravity="center_vertical"
-            android:paddingStart="14dp" android:paddingTop="9dp" android:paddingEnd="14dp" android:paddingBottom="9dp">
+            android:layout_marginStart="16dp" android:layout_marginEnd="16dp"
+            android:background="@drawable/bg_barra_topo" android:gravity="center_vertical"
+            android:paddingStart="14dp" android:paddingTop="12dp" android:paddingEnd="14dp" android:paddingBottom="12dp">
             <TextView android:id="@+id/dataCriada" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
                 android:textColor="@color/white" android:textSize="13sp" android:textStyle="bold" />
             <TextView android:id="@+id/dataCompra" android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
-                android:background="@drawable/bg_card_cantos"
+                android:background="@drawable/bg_card_baixo"
                 android:clipToOutline="true"
                 android:padding="1dp" />
 

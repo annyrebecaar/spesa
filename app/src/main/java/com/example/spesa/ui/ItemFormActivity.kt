@@ -20,6 +20,7 @@ import com.example.spesa.util.visivel
 
 /** Formulário para adicionar ou editar um item de uma lista. */
 class ItemFormActivity : AppCompatActivity() {
+    private val NOVO_MERCADO = "+ Novo mercado"
 
     companion object {
         const val EXTRA_LISTA_ID = "lista_id"
@@ -91,20 +92,7 @@ class ItemFormActivity : AppCompatActivity() {
             categoriaEscolhida = Categoria.entries[posicao]
         }
 
-        // Mercado: "Nenhum" + os cadastrados
-        val nomesMercados = listOf(getString(R.string.nenhum_mercado)) + Repositorio.mercados.map { it.nome }
-        b.campoMercado.setAdapter(ArrayAdapter(this, android.R.layout.simple_list_item_1, nomesMercados))
-        b.campoMercado.setText(nomesMercados[0], false)
-        b.campoMercado.setOnItemClickListener { _, _, posicao, _ ->
-            mercadoEscolhido = if (posicao == 0) null else Repositorio.mercados[posicao - 1]
-            // Se já sabemos o preço deste produto nesse mercado, preenche
-            val produto = Repositorio.produtoPorNome(b.campoNome.text.toString())
-            val conhecido = mercadoEscolhido?.let { produto?.precoEm(it.id) }
-            if (conhecido != null) {
-                b.campoPreco.setText(Formato.numero(conhecido.preco))
-                b.trocaPromocao.isChecked = conhecido.promocao
-            }
-        }
+        montarMercados()
 
         // Quantidade
         b.botaoMenos.setOnClickListener { mudarQuantidade(-1) }
@@ -162,6 +150,46 @@ class ItemFormActivity : AppCompatActivity() {
             startActivity(android.content.Intent(this, ComparativoActivity::class.java)
                 .putExtra(ComparativoActivity.EXTRA_PRODUTO, produto!!.id))
         }
+    }
+
+    /** Mercado: "Nenhum" + os cadastrados + "+ Novo mercado" no fim */
+    private fun montarMercados() {
+        val nomes = listOf(getString(R.string.nenhum_mercado)) + Repositorio.mercados.map { it.nome } + NOVO_MERCADO
+        b.campoMercado.setAdapter(ArrayAdapter(this, android.R.layout.simple_list_item_1, nomes))
+        b.campoMercado.setText(mercadoEscolhido?.nome ?: nomes[0], false)
+        b.campoMercado.setOnItemClickListener { _, _, posicao, _ ->
+            if (nomes[posicao] == NOVO_MERCADO) { novoMercado(); return@setOnItemClickListener }
+            mercadoEscolhido = if (posicao == 0) null else Repositorio.mercados[posicao - 1]
+            // Se já sabemos o preço deste produto nesse mercado, preenche
+            val produto = Repositorio.produtoPorNome(b.campoNome.text.toString())
+            val conhecido = mercadoEscolhido?.let { produto?.precoEm(it.id) }
+            if (conhecido != null) {
+                b.campoPreco.setText(Formato.numero(conhecido.preco))
+                b.trocaPromocao.isChecked = conhecido.promocao
+            }
+        }
+    }
+
+    /** janelinha para cadastrar um mercado sem sair do item */
+    private fun novoMercado() {
+        val campo = android.widget.EditText(this).apply { hint = "Nome do mercado" }
+        val caixa = android.widget.FrameLayout(this).apply {
+            val p = (20 * resources.displayMetrics.density).toInt()
+            setPadding(p, p / 2, p, 0); addView(campo)
+        }
+        com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+            .setTitle("Novo mercado")
+            .setView(caixa)
+            .setNegativeButton(R.string.cancelar) { _, _ -> montarMercados() }
+            .setPositiveButton("Criar") { _, _ ->
+                val nome = campo.text.toString().trim()
+                if (nome.isNotEmpty()) {
+                    val mercado = Mercado().apply { this.nome = nome }
+                    Repositorio.salvarMercado(mercado)
+                    mercadoEscolhido = mercado
+                }
+                montarMercados()
+            }.show()
     }
 
     private fun salvar() {

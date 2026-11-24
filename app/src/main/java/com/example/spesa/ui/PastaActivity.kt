@@ -58,7 +58,7 @@ class PastaActivity : AppCompatActivity() {
         b.vazio.visivel(listas.isEmpty())
     }
 
-    /** cartão da lista: barra com datas na cor da pasta e os 4 primeiros itens (dá pra marcar aqui mesmo) */
+    /** cartão da lista: barra com datas na cor da pasta, o título e o resumo (sem os itens) */
     private fun cartao(lista: ListaDeCompras) {
         val c = ItemCartaoListaBinding.inflate(layoutInflater, b.listas, true)
         c.barra.backgroundTintList = ColorStateList.valueOf(Telas.cor(this, pasta.cor.corRes))
@@ -71,30 +71,11 @@ class PastaActivity : AppCompatActivity() {
         compra?.let { c.dataCompra.text = "Compra: ${Datas.diaSemanaCurtoDia(it)}" }
         c.titulo.text = lista.titulo
 
-        // itens que faltam primeiro, os do carrinho depois
-        val ordenados = lista.itens.sortedBy { it.noCarrinho }
-        ordenados.take(4).forEach { item ->
-            val l = ItemItemListaBinding.inflate(layoutInflater, c.itens, true)
-            l.nome.text = item.nome
-            l.detalhe.text = "${item.quantidade} × ${Formato.reais(item.precoUnitario)}"
-            l.total.text = Formato.reais(item.total())
-            l.tagPromo.visivel(item.promocao)
-            l.tagCategoria.visivel(false)
-            l.marcado.isChecked = item.noCarrinho
-            if (item.noCarrinho) {
-                l.nome.paintFlags = l.nome.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                l.root.alpha = 0.55f
-            }
-            l.marcado.setOnClickListener {
-                item.noCarrinho = l.marcado.isChecked
-                Repositorio.salvar()
-                atualizar()
-            }
-            l.root.setOnClickListener { Telas.abrirLista(this, lista.id) }
-        }
-        val resto = lista.itens.size - 4
-        c.mais.visivel(resto > 0 || lista.itens.isEmpty())
-        c.mais.text = if (lista.itens.isEmpty()) "lista vazia: toque para adicionar itens" else "+ $resto ${if (resto == 1) "item" else "itens"}"
+        // só o resumo: quantos itens e quantos já estão no carrinho (os itens aparecem ao abrir a lista)
+        val n = lista.itens.size
+        c.mais.visivel(true)
+        c.mais.text = if (n == 0) "lista vazia: toque para adicionar itens"
+            else "$n ${if (n == 1) "item" else "itens"} · ${lista.quantosNoCarrinho()} no carrinho"
 
         c.carrinho.text = Html.fromHtml("No carrinho <b>${Formato.reais(lista.totalNoCarrinho())}</b>", 0)
         c.total.text = Html.fromHtml("Total <b>${Formato.reais(lista.totalEstimado())}</b>", 0)
